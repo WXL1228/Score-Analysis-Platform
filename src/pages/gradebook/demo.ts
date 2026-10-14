@@ -1,4 +1,5 @@
 import type { Subject, Workspace } from "./types"
+import { createId } from "./id"
 
 export const DEFAULT_SUBJECTS: Subject[] = [
   { id: "chinese", name: "语文", max: 100, pass: 60, excellent: 85 },
@@ -9,25 +10,24 @@ export const DEFAULT_SUBJECTS: Subject[] = [
 ]
 
 export function createWorkspace(name: string, teacher = ""): Workspace {
-  const classId = crypto.randomUUID()
   return {
-    id: crypto.randomUUID(),
+    id: createId(),
     name,
     teacher,
     demo: false,
     warningThreshold: 5,
-    classes: [{ id: classId, name: "新建班级" }],
+    classes: [],
     subjects: structuredClone(DEFAULT_SUBJECTS),
     students: [],
     exams: [],
     records: [],
-    selectedClassId: classId,
+    selectedClassId: "",
     selectedExamId: ""
   }
 }
 
 export function createDemo(): Workspace {
-  const data = createWorkspace("示例教学档案", "南老师")
+  const data = createWorkspace("教学档案", "老师好！")
   data.demo = true
   data.classes = [{ id: "class-1", name: "八年级（1）班" }, { id: "class-2", name: "八年级（2）班" }]
   data.selectedClassId = "class-1"

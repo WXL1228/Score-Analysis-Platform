@@ -88,3 +88,10 @@ export interface ImportPreview {
   errors: string[]
   subjects: string[]
 }
+
+export interface ClassInitialization {
+  name: string
+  exam?: { name: string, date: string, subjects: Subject[] }
+  rows: ImportRow[]
+  setDefaultSubjects: boolean
+}

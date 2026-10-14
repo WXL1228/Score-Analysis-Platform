@@ -31,8 +31,7 @@ export function rankedStudents(data: Workspace, examId: string, classId?: string
   const records = new Map(data.records.filter(item => item.examId === examId).map(item => [item.studentId, item.scores]))
   const all = data.students.map((student) => {
     const scores = records.get(student.id) ?? {}
-    const complete = exam.subjects.length > 0 && exam.subjects.every(subject => typeof scores[subject.id] === "number")
-    return { ...student, scores, total: complete ? round(exam.subjects.reduce((sum, subject) => sum + scores[subject.id]!, 0)) : null }
+    return { ...student, scores, total: round(exam.subjects.reduce((sum, subject) => sum + (scores[subject.id] ?? 0), 0)) }
   })
   const gradeRanks = rankValues(all.map(item => ({ id: item.id, value: item.total })))
   const students = all.filter(student => !classId || student.classId === classId)
@@ -60,13 +59,13 @@ export function rankedStudents(data: Workspace, examId: string, classId?: string
     const change = rank !== null && previousRank !== null ? previousRank - rank : null
     const failing = exam.subjects.filter(subject => typeof student.scores[subject.id] === "number" && student.scores[subject.id]! < subject.pass)
     const warnings: string[] = []
-    if (student.total === null) warnings.push("成绩不完整")
+    if (exam.subjects.some(subject => typeof student.scores[subject.id] !== "number")) warnings.push("成绩不完整")
     if (change !== null && change <= -data.warningThreshold) warnings.push(`退步 ${-change} 名`)
     if (failing.length) warnings.push(`${failing.map(subject => subject.name).join("、")}未及格`)
     if (student.focus) warnings.push("教师关注")
     return {
       ...student,
-      average: student.total === null ? null : round(student.total / exam.subjects.length),
+      average: round(student.total / exam.subjects.length),
       rank,
       gradeRank: gradeRanks.get(student.id) ?? null,
       previousRank,
@@ -95,7 +94,7 @@ export function totalStatistics(rows: RankedStudent[], exam: Exam | undefined): 
 }
 
 export function studentAdvice(row: RankedStudent, exam: Exam): string[] {
-  if (row.total === null) return ["本次成绩尚不完整，请先核对缺考或待录入科目，再进行综合分析。"]
+  if (exam.subjects.some(subject => typeof row.scores[subject.id] !== "number")) return ["本次缺考或未录入科目按 0 分计入总分与排名，请先核对缺考情况并补录待录入成绩，再结合答卷制定学习计划。"]
   const sorted = [...exam.subjects].sort((a, b) => row.scores[a.id]! / a.max - row.scores[b.id]! / b.max)
   const weak = sorted[0]
   const strong = sorted[sorted.length - 1]

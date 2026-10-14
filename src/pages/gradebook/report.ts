@@ -46,7 +46,7 @@ export function buildReport(data: Workspace, kind: ReportKind, targetId = ""): R
       metrics: [
         { label: `总分 / ${full}`, value: student.total ?? "待补全" },
         { label: "班级排名", value: student.rank ?? "—" },
-        { label: "跨班排名（已导入班级）", value: student.gradeRank ?? "—" },
+        { label: "跨班排名（当前档案）", value: student.gradeRank ?? "—" },
         { label: "班级排名变化", value: student.change === null ? "暂无可比记录" : student.change === 0 ? "持平" : `${student.change > 0 ? "进步" : "退步"} ${Math.abs(student.change)} 名` }
       ],
       tables: [
@@ -86,7 +86,7 @@ export function buildReport(data: Workspace, kind: ReportKind, targetId = ""): R
   return {
     ...base,
     title: "班级整体学情报告",
-    metrics: [{ label: `平均总分 / ${full}`, value: stats.count ? stats.average : "—" }, { label: "总分及格率", value: stats.count ? `${stats.passRate}%` : "—" }, { label: "总分优秀率", value: stats.count ? `${stats.excellentRate}%` : "—" }, { label: "完整成绩 / 全班人数", value: `${stats.count} / ${rows.length}` }],
+    metrics: [{ label: `平均总分 / ${full}`, value: stats.count ? stats.average : "—" }, { label: "总分及格率", value: stats.count ? `${stats.passRate}%` : "—" }, { label: "总分优秀率", value: stats.count ? `${stats.excellentRate}%` : "—" }, { label: "参与排名 / 全班人数", value: `${stats.count} / ${rows.length}` }],
     tables: [scoreTable(rows, exam), { title: `重点关注（${attention.length} 人，列出前 6 位）`, headers: ["学生", "总分", "班级排名", "关注原因"], rows: attention.slice(0, 6).map(row => [row.name, row.total ?? "—", row.rank ?? "—", row.warnings.join("；")]) }],
     sections: [{ title: "教学方向与后续支持", paragraphs: teachingAdvice(rows, exam) }]
   }
@@ -133,5 +133,5 @@ function trendSvg(values: NonNullable<ReportDocument["trend"]>): string {
 }
 
 export function reportHtml(report: ReportDocument): string {
-  return `<style>${REPORT_CSS}</style><article class="print-report"><header class="report-header"><div class="report-brand">成绩分析平台 / QINGHE GRADEBOOK</div><h1>${escapeHtml(report.title)}</h1><div class="report-subtitle">${escapeHtml(report.subtitle)} · 教师：${escapeHtml(report.teacher)}</div></header><div class="report-metrics">${report.metrics.map(item => `<div class="report-metric"><small>${escapeHtml(item.label)}</small><strong>${escapeHtml(item.value)}</strong></div>`).join("")}</div>${report.tables.map(table => `<section><h2>${escapeHtml(table.title)}</h2><table><thead><tr>${table.headers.map(header => `<th>${escapeHtml(header)}</th>`).join("")}</tr></thead><tbody>${table.rows.length ? table.rows.map(row => `<tr>${row.map(cell => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`).join("") : `<tr><td colspan="${table.headers.length}">暂无记录</td></tr>`}</tbody></table></section>`).join("")}${report.trend ? `<section><h2>总分得分率成长轨迹</h2>${trendSvg(report.trend)}</section>` : ""}${report.sections.map(section => `<section><h2>${escapeHtml(section.title)}</h2><ul>${section.paragraphs.map(text => `<li>${escapeHtml(text)}</li>`).join("")}</ul></section>`).join("")}<footer class="report-footer">统计口径：同分并列排名；缺考不计零分，各科统计按有效成绩人数，总分统计按完整成绩人数。总分及格 / 优秀线为各科对应分数线之和。排名变化仅比较科目及满分一致的上次考试。<br>建议根据成绩与排名规则生成，请结合答卷和课堂观察使用。跨班排名仅覆盖已导入的班级。此报告含学生信息，请妥善保管。</footer></article>`
+  return `<style>${REPORT_CSS}</style><article class="print-report"><header class="report-header"><div class="report-brand">成绩分析平台 / QINGHE GRADEBOOK</div><h1>${escapeHtml(report.title)}</h1><div class="report-subtitle">${escapeHtml(report.subtitle)} · 教师：${escapeHtml(report.teacher)}</div></header><div class="report-metrics">${report.metrics.map(item => `<div class="report-metric"><small>${escapeHtml(item.label)}</small><strong>${escapeHtml(item.value)}</strong></div>`).join("")}</div>${report.tables.map(table => `<section><h2>${escapeHtml(table.title)}</h2><table><thead><tr>${table.headers.map(header => `<th>${escapeHtml(header)}</th>`).join("")}</tr></thead><tbody>${table.rows.length ? table.rows.map(row => `<tr>${row.map(cell => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`).join("") : `<tr><td colspan="${table.headers.length}">暂无记录</td></tr>`}</tbody></table></section>`).join("")}${report.trend ? `<section><h2>总分得分率成长轨迹</h2>${trendSvg(report.trend)}</section>` : ""}${report.sections.map(section => `<section><h2>${escapeHtml(section.title)}</h2><ul>${section.paragraphs.map(text => `<li>${escapeHtml(text)}</li>`).join("")}</ul></section>`).join("")}<footer class="report-footer">统计口径：同分并列排名；缺考或未录入科目按 0 分计入总分与排名，平均分按本次考试全部学科计算；各科统计仍按有效成绩人数，总分统计包含当前班级全部学生。总分及格 / 优秀线为各科对应分数线之和。排名变化仅比较科目及满分一致的上次考试。<br>建议根据成绩与排名规则生成，请结合答卷和课堂观察使用。跨班排名覆盖当前档案学生名册，不代表未添加的整个年级。此报告含学生信息，请妥善保管。</footer></article>`
 }

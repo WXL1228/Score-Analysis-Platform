@@ -31,7 +31,7 @@ export function validateWorkspace(data: Workspace): void {
   requireUniqueIds(data.students)
   requireUniqueIds(data.exams)
   if (validateSubjects(data.subjects)) throw new Error("备份学科设置无效")
-  if (!data.classes.length || data.classes.some(item => typeof item.name !== "string" || !item.name.trim())
+  if (data.classes.some(item => typeof item.name !== "string" || !item.name.trim())
     || new Set(data.classes.map(item => item.name.trim())).size !== data.classes.length) {
     throw new Error("备份班级名称无效或重复")
   }
@@ -64,7 +64,7 @@ export function validateWorkspace(data: Workspace): void {
     }
     recordKeys.add(key)
   }
-  if (!classIds.has(data.selectedClassId) || (data.exams.length ? !data.exams.some(item => item.id === data.selectedExamId) : data.selectedExamId !== "")) throw new Error("备份的当前班级或考试不存在")
+  if ((data.classes.length ? !classIds.has(data.selectedClassId) : data.selectedClassId !== "") || (data.exams.length ? !data.exams.some(item => item.id === data.selectedExamId) : data.selectedExamId !== "")) throw new Error("备份的当前班级或考试不存在")
 }
 
 export function parseArchive(value: unknown): GradebookArchive {

@@ -6,7 +6,7 @@ const visible = defineModel<boolean>({ required: true })
 const store = useGradebookStore()
 const selectedStudent = ref("")
 const scores = ref<Record<string, number | undefined>>({})
-const total = computed(() => store.exam?.subjects.every(subject => typeof scores.value[subject.id] === "number") ? store.exam.subjects.reduce((sum, subject) => sum + scores.value[subject.id]!, 0) : null)
+const total = computed(() => store.exam ? store.exam.subjects.reduce((sum, subject) => sum + (scores.value[subject.id] ?? 0), 0) : null)
 function load() {
   const record = store.workspace.records.find(item => item.studentId === selectedStudent.value && item.examId === store.workspace.selectedExamId)
   scores.value = Object.fromEntries((store.exam?.subjects ?? []).map(subject => [subject.id, record?.scores[subject.id] ?? undefined]))
@@ -44,7 +44,7 @@ function save() {
       </div>
     </el-form>
     <p class="hint">
-      留空代表缺考或未录入；成绩完整后才计算总分排名。总分：{{ total ?? '尚不完整' }}{{ total === null ? '' : `，平均分：${(total / (store.exam?.subjects.length || 1)).toFixed(1)}` }}
+      留空代表缺考或未录入，按 0 分计入总分和排名，平均分按全部学科计算。总分：{{ total ?? '请选择考试' }}{{ total === null ? '' : `，平均分：${(total / (store.exam?.subjects.length || 1)).toFixed(1)}` }}
     </p>
     <template #footer>
       <el-button @click="visible = false">

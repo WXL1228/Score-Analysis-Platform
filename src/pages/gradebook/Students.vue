@@ -49,7 +49,7 @@ async function remove(row: Student) {
     <div class="toolbar">
       <div class="toolbar-group">
         <el-input v-model="query" placeholder="搜索姓名 / 学号" clearable aria-label="搜索学生" /><el-switch v-model="focusOnly" active-text="仅看重点关注" />
-      </div><el-button type="primary" :icon="Plus" @click="edit()">
+      </div><el-button type="primary" :icon="Plus" :disabled="!store.schoolClass.id" @click="edit()">
         添加学生
       </el-button>
     </div>
@@ -74,7 +74,7 @@ async function remove(row: Student) {
             </el-tag><span v-if="!row.warnings.length" class="hint">表现稳定</span>
           </div>
         </template>
-      </el-table-column><el-table-column prop="note" label="教师备注" min-width="160" show-overflow-tooltip /><el-table-column label="操作" width="260" fixed="right">
+      </el-table-column><el-table-column prop="note" label="教师备注" min-width="160" show-overflow-tooltip /><el-table-column label="操作" width="320" fixed="right">
         <template #default="{ row }">
           <el-button text type="primary" @click="edit(row as Student)">
             编辑

@@ -36,29 +36,45 @@ function archive(data = fixture()): GradebookArchive {
 }
 
 describe("排名与统计", () => {
-  it("同分并列按 1、1、3 排名，跨班排名使用已导入完整成绩", () => {
+  it("同分并列按 1、1、3 排名，缺考按零分参与班级与跨班排名", () => {
     const rows = rankedStudents(fixture(), "new", "one")
-    expect(rows.map(row => row.rank)).toEqual([1, 1, 3, null])
-    expect(rows.map(row => row.gradeRank)).toEqual([2, 2, 4, null])
-    expect(rows.map(row => row.total)).toEqual([160, 160, 130, null])
+    expect(rows.map(row => row.rank)).toEqual([1, 1, 3, 4])
+    expect(rows.map(row => row.gradeRank)).toEqual([2, 2, 4, 5])
+    expect(rows.map(row => row.total)).toEqual([160, 160, 130, 50])
+    expect(rows[3].average).toBe(25)
+    expect(rows[3].scores.chinese).toBeNull()
     expect(rows[3].subjectRanks.math).toBe(4)
   })
 
   it("班级排名进退步按同班上次考试计算，并产生下降预警", () => {
     const rows = rankedStudents(fixture(), "new", "one")
-    expect(rows.map(row => row.change)).toEqual([0, 2, -1, null])
+    expect(rows.map(row => row.change)).toEqual([0, 2, -1, 0])
     expect(rows[2].warnings).toContain("退步 1 名")
     expect(rows[3].warnings).toContain("成绩不完整")
     expect(rows[3].warnings).toContain("数学未及格")
   })
 
-  it("零分为有效成绩，缺考被排除；总分与学科采用各自分母", () => {
+  it("单科统计排除缺考，总分统计包含按零分参与排名的学生", () => {
     expect(statistics([0, 60, 85, null, undefined], 60, 85)).toEqual({ count: 3, average: 48.3, max: 85, min: 0, passRate: 66.7, excellentRate: 33.3 })
     const data = fixture()
     const rows = rankedStudents(data, "new", "one")
-    expect(totalStatistics(rows, data.exams[1])).toEqual({ count: 3, average: 150, max: 160, min: 130, passRate: 100, excellentRate: 0 })
+    expect(totalStatistics(rows, data.exams[1])).toEqual({ count: 4, average: 125, max: 160, min: 50, passRate: 75, excellentRate: 0 })
     expect(statistics(rows.map(row => row.scores.math), 60, 85).count).toBe(4)
     expect(statistics([], 60, 85).count).toBe(0)
+  })
+
+  it("整次未录入、全科缺考及实际零分均按零分同分并列，保留原始缺考标记", () => {
+    const data = fixture()
+    data.records = data.records.filter(record => record.examId !== "new" || !["b", "c", "d"].includes(record.studentId))
+    data.records.push({ examId: "new", studentId: "c", scores: { math: null, chinese: null } }, { examId: "new", studentId: "d", scores: { math: 0, chinese: 0 } })
+    const rows = rankedStudents(data, "new", "one")
+    expect(rows.map(row => row.total)).toEqual([160, 0, 0, 0])
+    expect(rows.map(row => row.average)).toEqual([80, 0, 0, 0])
+    expect(rows.map(row => row.rank)).toEqual([1, 2, 2, 2])
+    expect(rows.map(row => row.gradeRank)).toEqual([2, 3, 3, 3])
+    expect(rows.find(row => row.id === "b")?.scores).toEqual({})
+    expect(rows.find(row => row.id === "c")?.scores).toEqual({ math: null, chinese: null })
+    expect(rows.find(row => row.id === "d")?.warnings).not.toContain("成绩不完整")
   })
 
   it("考试科目或满分改变后不生成误导性的排名变化", () => {
@@ -190,6 +206,16 @@ describe("浏览器持久化与数据恢复", () => {
 })
 
 describe("报告", () => {
+  it("缺考学生报告保留缺考标记并显示总分、排名和趋势，不生成 NaN 建议", () => {
+    const report = buildReport(fixture(), "student", "d")
+    expect(report.metrics[0].value).toBe(50)
+    expect(report.metrics[1].value).toBe(4)
+    expect(report.trend?.map(item => item.value)).toEqual([60, 25])
+    const html = reportHtml(report)
+    expect(html).toContain("缺考 / 未录入")
+    expect(html).toContain("按 0 分")
+    expect(html).not.toContain("NaN")
+  })
   it("个人报告含学科排名、历史记录与学习建议，内容转义避免 HTML 注入", () => {
     const data = fixture()
     data.students[0].name = "<img src=x onerror=\"alert(1)\">"

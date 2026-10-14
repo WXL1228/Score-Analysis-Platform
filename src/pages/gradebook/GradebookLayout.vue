@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ArrowRight, Bell, DataAnalysis, DataLine, Document, EditPen, Files, Reading, Setting, Upload, User } from "@element-plus/icons-vue"
+import { ArrowRight, Bell, DataAnalysis, DataLine, Document, EditPen, Files, Reading, Setting, Upload, User, UserFilled } from "@element-plus/icons-vue"
 import { useGradebookStore } from "@/pinia/stores/gradebook"
 
 const store = useGradebookStore()
@@ -46,7 +46,7 @@ watch(() => route.path, () => {
           <el-icon><Setting /></el-icon>班级设置
         </router-link>
         <div class="teacher-avatar">
-          <span>{{ store.workspace.teacher.slice(0, 1) || '师' }}</span><div><strong>{{ store.workspace.teacher || '教师档案' }}</strong><small>{{ store.workspace.name }}</small></div><router-link to="/settings" aria-label="管理档案">
+          <span role="img" aria-label="教师头像"><el-icon :size="18"><UserFilled /></el-icon></span><div><strong>{{ store.workspace.teacher || '教师档案' }}</strong><small>{{ store.workspace.name }}</small></div><router-link to="/settings" aria-label="管理档案">
             <el-icon><Setting /></el-icon>
           </router-link>
         </div>
@@ -63,7 +63,7 @@ watch(() => route.path, () => {
         <div class="topbar-actions">
           <span class="save-status" :class="{ error: store.saveError || store.loadError }"><i />{{ store.saveError || store.loadError ? '保存需要处理' : '已自动保存到本机' }}</span><router-link to="/students" class="bell-link" :aria-label="`${alertCount} 位需要关注的学生`">
             <el-icon><Bell /></el-icon><i v-if="alertCount" />
-          </router-link><span class="mini-avatar">{{ store.workspace.teacher.slice(0, 1) || '师' }}</span>
+          </router-link><span class="mini-avatar" role="img" aria-label="教师头像"><el-icon :size="18"><UserFilled /></el-icon></span>
         </div>
       </header>
       <main class="workspace-main">
@@ -86,7 +86,7 @@ watch(() => route.path, () => {
         </div>
         <div class="context-bar">
           <div class="context-controls">
-            <span class="context-label">当前班级</span><el-select v-model="store.workspace.selectedClassId" aria-label="当前班级" class="class-select">
+            <span class="context-label">当前班级</span><el-select v-model="store.workspace.selectedClassId" placeholder="请先添加班级" aria-label="当前班级" class="class-select">
               <el-option v-for="group in store.workspace.classes" :key="group.id" :label="group.name" :value="group.id" />
             </el-select><span class="context-separator" /><span class="context-label">考试</span><el-select v-model="store.workspace.selectedExamId" placeholder="请先新建考试" aria-label="当前考试" class="exam-select">
               <el-option v-for="exam in exams" :key="exam.id" :label="exam.name" :value="exam.id" />
@@ -94,6 +94,11 @@ watch(() => route.path, () => {
           </div>
           <span class="context-date">{{ store.exam?.date || '暂无考试' }}<span> · {{ store.students.length }} 位学生</span></span>
         </div>
+        <el-alert v-if="!store.workspace.classes.length" type="info" :closable="false" show-icon class="storage-alert" title="暂无班级，请先到班级设置中添加班级。">
+          <router-link to="/settings" class="text-link">
+            去添加班级
+          </router-link>
+        </el-alert>
         <router-view />
         <footer class="page-footer">
           <span>成绩分析平台 · 记录成绩，更关注成长</span><span>{{ store.savedAt ? `上次保存 ${store.savedAt}` : '浏览器本地存储' }}</span>

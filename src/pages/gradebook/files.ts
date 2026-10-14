@@ -1,4 +1,5 @@
-import type { Exam, ImportPreview, ImportRow, RankedStudent } from "./types"
+import type { Exam, ImportPreview, ImportRow, RankedStudent, Subject } from "./types"
+import { createId } from "./id"
 
 export function downloadBlob(blob: Blob, name: string): void {
   const url = URL.createObjectURL(blob)
@@ -70,9 +71,42 @@ function cleanHeader(value: unknown): string {
   return String(value ?? "").replace(/^\uFEFF/, "").replace(/\s/g, "").replace(/[（(].*?[）)]/g, "").replace(/(成绩|分数)$/, "")
 }
 
-export function parseScoreMatrix(matrix: unknown[][], exam: Exam, defaultClass: string): ImportPreview {
+function scoreHeaders(matrix: unknown[][]): { first: number, headers: string[] } {
   const first = matrix.findIndex(row => row.some(cell => cell !== null && cell !== undefined && String(cell).trim() !== ""))
-  const headers = (matrix[first] ?? []).map(cleanHeader)
+  return { first, headers: (matrix[first] ?? []).map(cleanHeader) }
+}
+
+/** 初始化班级时识别学科；总分、排名及学生资料列不作为学科。 */
+export function inferSubjects(matrix: unknown[][], existing: Subject[]): Subject[] {
+  const { first, headers } = scoreHeaders(matrix)
+  const ignored = new Set(["学号", "学生编号", "姓名", "学生姓名", "班级", "班级名", "班级名称", "序号", "编号", "年级", "性别", "年龄", "座号", "学籍号", "总分", "总成绩", "平均分", "平均成绩", "排名", "名次", "班级排名", "跨班排名", "年级排名", "排名变化", "进退步", "备注", "说明", "考试", "考试名称", "考试日期", "日期", "教师", "班主任", "学期", "学年", "学校", "联系电话", "手机号"].map(cleanHeader))
+  return headers.flatMap((name, index) => {
+    if (!name || ignored.has(name) || /(排名|名次|等级|得分率|及格率|优秀率)$/.test(name)) return []
+    const known = existing.find(subject => subject.name === name)
+    const match = String(matrix[first][index] ?? "").match(/[（(]\s*(?:满分\s*)?(\d+(?:\.\d+)?)\s*(?:分\s*)?[）)]/)
+    const max = match ? Number(match[1]) : known?.max ?? 100
+    const pass = Math.round(max * (known ? known.pass / known.max : 0.6) * 10) / 10
+    const excellent = Math.round(max * (known ? known.excellent / known.max : 0.85) * 10) / 10
+    return [{ id: known?.id ?? createId(), name, max, pass, excellent }]
+  })
+}
+
+/** 只初始化一个班级，允许重命名来源班级，避免误合并多个班级。 */
+export function parseClassScoreMatrix(matrix: unknown[][], subjects: Subject[], className: string): ImportPreview {
+  const { first, headers } = scoreHeaders(matrix)
+  const classColumn = headers.findIndex(value => ["班级", "班级名", "班级名称"].includes(value))
+  const classNames = new Set(matrix.slice(first + 1).map(row => classColumn < 0 ? "" : String(row[classColumn] ?? "").trim()).filter(Boolean))
+  if (classNames.size > 1) return { rows: [], errors: ["工作表包含多个班级，请选择单个班级的工作表或先拆分文件"], subjects: subjects.map(subject => subject.name) }
+  const normalized = matrix.map((row, index) => {
+    const copy = [...row]
+    if (index > first && classColumn >= 0 && row.some(value => value !== null && value !== undefined && String(value).trim() !== "")) copy[classColumn] = className.trim()
+    return copy
+  })
+  return parseScoreMatrix(normalized, { id: "preview", name: "预览", date: "", subjects }, className.trim())
+}
+
+export function parseScoreMatrix(matrix: unknown[][], exam: Exam, defaultClass: string): ImportPreview {
+  const { first, headers } = scoreHeaders(matrix)
   const errors: string[] = []
   const numberColumn = headers.findIndex(value => ["学号", "学生编号"].includes(value))
   const nameColumn = headers.findIndex(value => ["姓名", "学生姓名"].includes(value))
@@ -121,7 +155,7 @@ export async function exportWorkbook(exam: Exam, className: string, rows?: Ranke
   } else {
     sheet.addRow(["001", "示例学生（请替换）", className, ...exam.subjects.map(() => null)])
     const instructions = workbook.addWorksheet("填写说明")
-    instructions.addRow(["第一行为表头。学号使用文本，保留前导零。空分数或「缺考」表示缺考，不计零分。"])
+    instructions.addRow(["第一行为表头。学号使用文本，保留前导零。空分数或「缺考」保留缺考标记，按 0 分计入总分与排名。"])
     instructions.addRow(["班级名不同会自动创建班级；同班同学号须姓名一致；同一次考试再次导入会更新表内科目。"])
     instructions.addRow(["排名变化 = 上次班级排名 − 本次班级排名；同分并列。只有科目和满分相同才比较总排名。"])
     exam.subjects.forEach(subject => instructions.addRow([subject.name, `满分 ${subject.max}，及格 ${subject.pass}，优秀 ${subject.excellent}`]))

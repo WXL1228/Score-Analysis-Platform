@@ -20,7 +20,7 @@ watch(() => [store.workspace.id, store.schoolClass.id, store.exam?.id, store.stu
   if (!store.exam?.subjects.some(item => item.id === subjectId.value)) subjectId.value = store.exam?.subjects[0]?.id ?? ""
 }, { immediate: true })
 const report = computed(() => {
-  if (!store.exam || (kind.value === "student" && !studentId.value)) return null
+  if (!store.exam || !store.schoolClass.id || (kind.value === "student" && !studentId.value)) return null
   return buildReport(store.workspace, kind.value, kind.value === "student" ? studentId.value : subjectId.value)
 })
 const html = computed(() => report.value ? reportHtml(report.value) : "")

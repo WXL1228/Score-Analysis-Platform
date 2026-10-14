@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import type { Student } from "../types"
 import { useGradebookStore } from "@/pinia/stores/gradebook"
+import { createId } from "../id"
 
 const { student } = defineProps<{ student?: Student }>()
 const visible = defineModel<boolean>({ required: true })
 const store = useGradebookStore()
 const form = ref<Student>({ id: "", number: "", name: "", classId: "", focus: false, note: "" })
 watch(visible, (value) => {
-  if (value) form.value = student ? { ...student } : { id: crypto.randomUUID(), number: "", name: "", classId: store.schoolClass.id, focus: false, note: "" }
+  if (value) form.value = student ? { ...student } : { id: createId(), number: "", name: "", classId: store.schoolClass.id, focus: false, note: "" }
 })
 function save() {
   if (!form.value.number.trim() || !form.value.name.trim()) return ElMessage.error("学号和姓名不能为空")

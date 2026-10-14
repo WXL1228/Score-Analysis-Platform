@@ -37,7 +37,7 @@ const subjectRateOption = computed(() => lineOption(labels.value, subjectIds.val
   <div>
     <section class="panel">
       <div class="panel-heading">
-        <div><h2>全班平均分与及格率趋势</h2><p>平均分转换为得分率，以适应历次考试总分变化；缺少有效成绩时保留断点</p></div><span class="subtle-tag">{{ history.length }} 次考试</span>
+        <div><h2>全班平均分与及格率趋势</h2><p>平均分转换为得分率，以适应历次考试总分变化；缺考或未录入科目按 0 分计入总分</p></div><span class="subtle-tag">{{ history.length }} 次考试</span>
       </div><ChartPanel :option="classOption" label="全班平均得分率和及格率趋势" /><el-table :data="history">
         <el-table-column label="考试" min-width="150">
           <template #default="{ row }">
@@ -47,7 +47,7 @@ const subjectRateOption = computed(() => lineOption(labels.value, subjectIds.val
           <template #default="{ row }">
             {{ row.exam.date }}
           </template>
-        </el-table-column><el-table-column label="完整成绩人数" min-width="110">
+        </el-table-column><el-table-column label="参与排名人数" min-width="110">
           <template #default="{ row }">
             {{ row.stats.count }}
           </template>
@@ -73,7 +73,7 @@ const subjectRateOption = computed(() => lineOption(labels.value, subjectIds.val
     </section>
     <section class="panel section-gap">
       <div class="panel-heading">
-        <div><h2>一个学生，一条成长轨迹</h2><p>排名越靠上越好；同分并列，缺考不参与总排名。总分曲线须结合各次考试满分解读。</p></div><el-select v-model="studentId" filterable aria-label="趋势学生" placeholder="请选择学生" style="width: 210px">
+        <div><h2>一个学生，一条成长轨迹</h2><p>排名越靠上越好；同分并列，缺考或未录入科目按 0 分参与总排名。总分曲线须结合各次考试满分解读。</p></div><el-select v-model="studentId" filterable aria-label="趋势学生" placeholder="请选择学生" style="width: 210px">
           <el-option v-for="student in store.students" :key="student.id" :label="`${student.number} · ${student.name}`" :value="student.id" />
         </el-select>
       </div><div class="dashboard-grid">

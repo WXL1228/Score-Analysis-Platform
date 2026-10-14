@@ -47,7 +47,7 @@ const distribution = computed(() => {
           </div><div class="stat-value">
             {{ store.stats.count ? store.stats.average : '—' }}<small>/ {{ fullScore }}</small>
           </div><div class="stat-hint">
-            完整成绩 {{ store.stats.count }} / {{ store.students.length }} 人
+            参与排名 {{ store.stats.count }} / {{ store.students.length }} 人
           </div>
         </div>
         <div class="stat-card">

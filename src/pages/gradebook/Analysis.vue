@@ -31,7 +31,7 @@ const advice = computed(() => teachingAdvice(store.rows, store.exam))
   <div>
     <section class="panel">
       <div class="panel-heading">
-        <div><h2>学科成绩统计</h2><p>缺考不进入该科统计分母；总分统计仅纳入成绩完整的学生</p></div><span class="subtle-tag">{{ store.exam?.name || '暂无考试' }}</span>
+        <div><h2>学科成绩统计</h2><p>缺考不进入该科统计分母；缺考或未录入科目按 0 分计入总分统计与排名</p></div><span class="subtle-tag">{{ store.exam?.name || '暂无考试' }}</span>
       </div><el-table :data="subjects" empty-text="请先新建考试并录入成绩">
         <el-table-column prop="name" label="学科" min-width="100" /><el-table-column prop="max" label="满分" width="75" /><el-table-column prop="pass" label="及格线" width="80" /><el-table-column prop="excellent" label="优秀线" width="80" /><el-table-column prop="stats.count" label="有效人数" width="90" /><el-table-column label="平均分" min-width="90">
           <template #default="{ row }">
