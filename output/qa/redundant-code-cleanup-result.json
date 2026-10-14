@@ -1,0 +1,37 @@
+{
+  "approvedFiles": 136,
+  "removedFiles": 126,
+  "remainingFiles": [
+    "src/common/assets/images/docs/preview.png",
+    "src/common/assets/images/layouts/logo-text-1.png",
+    "src/common/assets/images/layouts/logo-text-2.png",
+    "src/common/assets/images/layouts/logo.png",
+    "src/pages/login/images/close-eyes.png",
+    "src/pages/login/images/face.png",
+    "src/pages/login/images/hand-down-left.png",
+    "src/pages/login/images/hand-down-right.png",
+    "src/pages/login/images/hand-up-left.png",
+    "src/pages/login/images/hand-up-right.png"
+  ],
+  "removedDirectDependencies": 16,
+  "sourceCodeFiles": 33,
+  "sourceCodeLines": 3814,
+  "validation": {
+    "eslint": "passed",
+    "businessTests": 43,
+    "testFiles": 5,
+    "productionBuild": "passed",
+    "frozenLockfile": "passed",
+    "browserPages": [
+      "dashboard",
+      "scores",
+      "students",
+      "analysis",
+      "trends",
+      "reports",
+      "settings"
+    ],
+    "browserConsoleErrors": 0
+  },
+  "remainingFilesReason": "自动审批拦截二进制图片删除命令；补丁工具不支持二进制图片。图片未被运行时引用，也未进入部署包。"
+}

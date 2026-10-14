@@ -4,7 +4,6 @@ import { rankedStudents, totalStatistics } from "@/pages/gradebook/analytics"
 import { createDemo, createWorkspace } from "@/pages/gradebook/demo"
 import { createId } from "@/pages/gradebook/id"
 import { parseArchive, validateWorkspace } from "@/pages/gradebook/validation"
-import { pinia } from "@/pinia"
 
 export const useGradebookStore = defineStore("gradebook", () => {
   const loadError = ref<string>("")
@@ -157,11 +156,3 @@ export const useGradebookStore = defineStore("gradebook", () => {
 
   return { archive, workspace, schoolClass, exam, rows, stats, students, savedAt, saveError, loadError, save, addWorkspace, initializeClass, deleteClass, deleteExam, upsertStudent, upsertScores, importScores, restore }
 })
-
-/**
- * @description 在 SPA 应用中可用于在 pinia 实例被激活前使用 store
- * @description 在 SSR 应用中可用于在 setup 外使用 store
- */
-export function useGradebookStoreOutside() {
-  return useGradebookStore(pinia)
-}

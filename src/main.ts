@@ -8,7 +8,6 @@ import App from "@/App.vue"
 import "normalize.css"
 import "element-plus/dist/index.css"
 import "@/pages/gradebook/styles.scss"
-import "virtual:uno.css"
 
 // 创建应用实例
 const app = createApp(App)

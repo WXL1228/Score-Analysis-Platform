@@ -2,14 +2,10 @@
 
 import { resolve } from "node:path"
 import vue from "@vitejs/plugin-vue"
-import UnoCSS from "unocss/vite"
 import AutoImport from "unplugin-auto-import/vite"
-import SvgComponent from "unplugin-svg-component/vite"
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
 import Components from "unplugin-vue-components/vite"
 import { defineConfig, loadEnv } from "vite"
-import { ViteMcp } from "vite-plugin-mcp"
-import svgLoader from "vite-svg-loader"
 
 // Configuring Vite: https://cn.vite.dev/config
 export default defineConfig(({ mode }) => {
@@ -40,7 +36,7 @@ export default defineConfig(({ mode }) => {
       // 预热常用文件，提高初始页面加载速度
       warmup: {
         clientFiles: [
-          "./src/layouts/**/*.*",
+          "./src/pages/gradebook/**/*.vue",
           "./src/pinia/**/*.*",
           "./src/router/**/*.*"
         ]
@@ -91,45 +87,18 @@ export default defineConfig(({ mode }) => {
     // 插件配置
     plugins: [
       vue(),
-      // 支持将 SVG 文件导入为 Vue 组件
-      svgLoader({
-        defaultImport: "url",
-        svgoConfig: {
-          plugins: [
-            {
-              name: "preset-default",
-              params: {
-                overrides: {
-                  // @see https://github.com/svg/svgo/issues/1128
-                  removeViewBox: false
-                }
-              }
-            }
-          ]
-        }
-      }),
-      // 自动生成 SvgIcon 组件和 SVG 雪碧图
-      SvgComponent({
-        iconDir: [resolve(__dirname, "src/common/assets/icons")],
-        preserveColor: resolve(__dirname, "src/common/assets/icons/preserve-color"),
-        dts: true,
-        dtsDir: resolve(__dirname, "types/auto")
-      }),
-      // 原子化 CSS
-      UnoCSS(),
       // 自动按需导入 API
       AutoImport({
-        imports: ["vue", "vue-router", "pinia"],
+        imports: ["vue", "vue-router", "pinia", { "element-plus/es": ["ElMessage", "ElMessageBox"] }],
         dts: "types/auto/auto-imports.d.ts",
-        resolvers: [ElementPlusResolver({ importStyle: false })]
+        dtsMode: "overwrite"
       }),
       // 自动按需导入组件
       Components({
         dts: "types/auto/components.d.ts",
+        syncMode: "overwrite",
         resolvers: [ElementPlusResolver({ importStyle: false })]
-      }),
-      // 为项目开启 MCP Server
-      ViteMcp()
+      })
     ],
     // Configuring Vitest: https://cn.vitest.dev/config
     test: {

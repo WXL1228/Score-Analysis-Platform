@@ -21,8 +21,5 @@ export const constantRoutes: RouteRecordRaw[] = [
   { path: "/:pathMatch(.*)*", redirect: "/dashboard" }
 ]
 
-// 保留模板 Store 的导出兼容；应用只使用公开的静态业务路由。
-export const dynamicRoutes: RouteRecordRaw[] = []
 export const router = createRouter({ history: routerConfig.history, routes: constantRoutes })
-export function resetRouter() {}
 registerNavigationGuard(router)

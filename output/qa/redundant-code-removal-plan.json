@@ -1,0 +1,715 @@
+{
+  "projectRoot": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform",
+  "reason": "当前成绩系统未引用的原后台模板模块，以及仅服务这些模块的测试、配置和类型文件",
+  "preserve": [
+    "src/pages/gradebook/**",
+    "src/pinia/stores/gradebook.ts",
+    "output/**",
+    "*.zip",
+    "LICENSE",
+    "AGENTS.md",
+    ".cursor/**"
+  ],
+  "files": [
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\apis\\tables\\index.ts",
+      "bytes": 762,
+      "sha256": "54f905ca6c951966d5be34cdf65e1d7741629c75f52aae14d8b7deff85caf0ec"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\apis\\tables\\type.ts",
+      "bytes": 602,
+      "sha256": "5ae27a8eb7ae99b2cba66c273b369d1dadbf30031512e37c4f5b6745c6f5c150"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\apis\\users\\index.ts",
+      "bytes": 259,
+      "sha256": "ddcd07b1bf453e74a0573846d08b6cdc3ab1c7bfd51922db494f3772d6a1fb72"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\apis\\users\\type.ts",
+      "bytes": 126,
+      "sha256": "02b91d1cc42cd0d52f0254fe269ee249ca7d91cbd075233a230af57aedee8797"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\icons\\dashboard.svg",
+      "bytes": 1533,
+      "sha256": "333603212a37fb949f9fb72f2e2871a79c27f7b2c4c7356f138c8234525595ff"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\icons\\fullscreen-exit.svg",
+      "bytes": 748,
+      "sha256": "94af362e74659739515f549ee9c2ed133c7bd1a77a2717469e383c1a22ad5285"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\icons\\fullscreen.svg",
+      "bytes": 747,
+      "sha256": "bd5c12c3f2b11f7e81c78872ff4c2aeff2b57e308c421c72977962cd13fe956b"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\icons\\keyboard-down.svg",
+      "bytes": 224,
+      "sha256": "4aa311558a6562b53bbcb3de18ca13fdf8e30f49abc9847a54db692631b1a960"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\icons\\keyboard-enter.svg",
+      "bytes": 242,
+      "sha256": "bf71c390d0c5bed8ce375dee294b3f360bcf50bf2ebd4dcccaccd02c152efe27"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\icons\\keyboard-esc.svg",
+      "bytes": 695,
+      "sha256": "c62a1ed7f4c8807792f887ebb86312b0aa42513916299ea124151a856546ab6d"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\icons\\keyboard-up.svg",
+      "bytes": 224,
+      "sha256": "09cd1f6eb305f05392eb14396cf2b1a5bba71b906f8fe55b19e7e2297648c3bb"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\icons\\preserve-color\\README.md",
+      "bytes": 513,
+      "sha256": "32558f584575b34c0ba249a6550f8173251abbd7090f5510b1785ff12f5e2482"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\icons\\search.svg",
+      "bytes": 1327,
+      "sha256": "c90aca6d184ab9e1f7c9ffacc19701e27fa97b66ae3002826167119f194012af"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\images\\docs\\preview.png",
+      "bytes": 503620,
+      "sha256": "6ca39b5287ba538775e4f37a615bd42feb34ef08254cd6d21c36dd34463a4818"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\images\\layouts\\logo-text-1.png",
+      "bytes": 93711,
+      "sha256": "da82c0b5d236dcfcf1130e9b8a8ea25b18a79ccba7129777e4dd197eb9e9738a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\images\\layouts\\logo-text-2.png",
+      "bytes": 91210,
+      "sha256": "5d2a354fcfa58723c25ad0013cb929dedbb588667879ff8aef188558a5d6229b"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\images\\layouts\\logo.png",
+      "bytes": 8627,
+      "sha256": "660ad0794400d57cf7f17c0c361c81e980ff7ea505311a761730926b5bf8f9af"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\element-plus.css",
+      "bytes": 3205,
+      "sha256": "9fd8c51ee45756aad32e579abfc9afe7e9399aaf1090801ed8a3e89c47f6062a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\element-plus.scss",
+      "bytes": 314,
+      "sha256": "5a3a48b45714ef9bb769e3904c3cc5daf599f5c22f44dc2cc5927f4c96fbfd18"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\index.scss",
+      "bytes": 1287,
+      "sha256": "4c2812240fc20238458b76fb6e4d687221ae3208530309ca5274dd8adc903241"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\mixins.scss",
+      "bytes": 914,
+      "sha256": "cb9d4a14c3e9c622bd520bc21aaa2401971941aa67f5d8013c122c458c7c68ac"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\theme\\core\\element-plus.scss",
+      "bytes": 594,
+      "sha256": "13ba16b92fbaa2a9ac444a1d4eb433f81421e0c3d125799d0e2cdae41e2f0dc0"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\theme\\core\\index.scss",
+      "bytes": 85,
+      "sha256": "87f67c574b85e95451470b24a25be71fd65de2a2d394d30104af812e0fbdb7db"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\theme\\core\\layouts.scss",
+      "bytes": 726,
+      "sha256": "de36f27072b8cfdeabf80b1096b0b0fa68f34911afdc54328218809fd021df3f"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\theme\\dark-blue\\index.scss",
+      "bytes": 60,
+      "sha256": "d4d4e8ca9bb719e9653346bababe8f3aba04dfdda0b5e72ef76a4593e78d743a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\theme\\dark-blue\\variables.scss",
+      "bytes": 129,
+      "sha256": "d2f12f56963ddea54ffbad8f4e32f03aef8d33d455f2ec208155f3061fb4c949"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\theme\\dark\\index.scss",
+      "bytes": 60,
+      "sha256": "d4d4e8ca9bb719e9653346bababe8f3aba04dfdda0b5e72ef76a4593e78d743a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\theme\\dark\\variables.scss",
+      "bytes": 119,
+      "sha256": "a6f77dba4afe8f1badbc9a1ccf9764b017a794fdea6b88458b6c1a8392276e53"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\theme\\register.scss",
+      "bytes": 85,
+      "sha256": "3afbfc50f49cdbf571dd95eb3eeee11b747a12619d90b1425329d5c30ac376ae"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\transition.scss",
+      "bytes": 519,
+      "sha256": "6ac18a86318b817922eda992d1d9f9c6c2539db75fcda78c744b393fbd9a8ed8"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\variables.css",
+      "bytes": 3063,
+      "sha256": "2d5facf6554bee0cd7e2d45cddd857f8207319da7b1a9e3cf8ffec15b11a30f3"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\view-transition.scss",
+      "bytes": 502,
+      "sha256": "70e16357c2c26831a9391fdff25c84b1f8385e72b1ee0706d363d19add1ee216"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\vxe-table.css",
+      "bytes": 4130,
+      "sha256": "c2391ee0df2af75f5e1c50ba8dd0f79049bc1e36678962aa88d4d653658367fd"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\assets\\styles\\vxe-table.scss",
+      "bytes": 722,
+      "sha256": "ed35b7ec96e87aa5bb1606824a9367f33389936683bddcaf5df2ac021c9099a2"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\Notify\\List.vue",
+      "bytes": 1462,
+      "sha256": "8707f55cf8ac37286c7b82cdfaee95f2272338f3daa864b3cbec99870f02cc0d"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\Notify\\data.ts",
+      "bytes": 1889,
+      "sha256": "d17a0f4e8166dec0c752b896b26f15ac77a0bec9b20041280c384d31486f29d8"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\Notify\\index.vue",
+      "bytes": 2471,
+      "sha256": "f48dc39bd7354b573f4aa2d340e598a0bdc2593205f9d1b1b70be1ede150ac26"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\Notify\\type.ts",
+      "bytes": 199,
+      "sha256": "a0bf5559a64a999493fdf1984b05e6a148bad448acfe6416b597da4acd40ba88"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\Screenfull\\index.vue",
+      "bytes": 3263,
+      "sha256": "3529fa55ed353fbe3ad5b1330db7ea3a3962963045257e3f70d9d087d26a22de"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\SearchMenu\\Footer.vue",
+      "bytes": 1299,
+      "sha256": "0c6bc587d7870fe0e52394f74dff484723696a6b300e6993f31412ed9434c95c"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\SearchMenu\\Modal.vue",
+      "bytes": 6569,
+      "sha256": "e6758b38cecba6a07b7950c1e66e9ea6620a39211e6810753fbacc1980b4ed4a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\SearchMenu\\Result.vue",
+      "bytes": 3192,
+      "sha256": "0449bb10daf1c46d2346d3aee193bca0181bdf4031f6d46132bb4fe12ea24c62"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\SearchMenu\\index.vue",
+      "bytes": 568,
+      "sha256": "fc0688e591e7edbe1edbb0fb35a7902ffd8a88390a79478ae003fe47c53ca56b"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\components\\ThemeSwitch\\index.vue",
+      "bytes": 873,
+      "sha256": "97c5ef76c82083f954fc016e5dc44b679f43bf59fdfe86a92af5e5831e6d4863"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\useDevice.ts",
+      "bytes": 387,
+      "sha256": "af111f7b613cdecbb456c60e4e76eed80a2515cb5f2214f479b7d91d10c39994"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\useFetchSelect.ts",
+      "bytes": 941,
+      "sha256": "9724e60cb5491e59d45067125f4d94db6c028ab68061f73625391ed87aa7a9d9"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\useFullscreenLoading.ts",
+      "bytes": 987,
+      "sha256": "b17b28843143f7a58b404eed10c60a0d5ca7b3f658f5698edf6556f8a20573fd"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\useGreyAndColorWeakness.ts",
+      "bytes": 595,
+      "sha256": "9ca1f1db3356ff2b962fc64f85a787b09cc8674902b9adc29c2cbbb68c6c0b2d"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\useLayoutMode.ts",
+      "bytes": 626,
+      "sha256": "521e08d38bfc3f9656c3791c410500917138d776f838625c4dcf06c2d1ba01c3"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\usePagination.ts",
+      "bytes": 1584,
+      "sha256": "d6c80291343c180d998c270261e4c1cc8328a907606c6aed0ba95322a5733f66"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\usePany.ts",
+      "bytes": 1728,
+      "sha256": "15bc48e013af6d838361ce78a854bbe2caecf47545f0f6aa3ef7f8b3cf986fe9"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\useRouteListener.ts",
+      "bytes": 1577,
+      "sha256": "266b2fafa5511902cf5348d085b45618949c441396c5bdd0eb1d8916174fdd7b"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\useTheme.ts",
+      "bytes": 2063,
+      "sha256": "5290154ee34e22f5771dd4940943fd845035d3ae0e6b03b2bcdfd7a87236a6c7"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\useTitle.ts",
+      "bytes": 530,
+      "sha256": "efc40b77be2c07867c645e9b0d2f7f92331c74a71b5487daafecd12bc4b54662"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\composables\\useWatermark.ts",
+      "bytes": 8243,
+      "sha256": "f81364201c7bc8f4f513336b74503832c2329bc36b132fa229a7c24ec6a626ec"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\constants\\app-key.ts",
+      "bytes": 448,
+      "sha256": "b2c2c0b27e833f5dc1aaadc93f0a3d30deabf4ad2f73c967994305f6c453ec4e"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\utils\\css.ts",
+      "bytes": 718,
+      "sha256": "d5bbbed342b9250c01a25fa148c8796ae34e2d0e4c35292156c02962e05ea898"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\utils\\datetime.ts",
+      "bytes": 300,
+      "sha256": "90b20b25cfcda4406fb33902218ad13e6d9d0a678954fff3a40a3adf20768faf"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\utils\\permission.ts",
+      "bytes": 683,
+      "sha256": "6629c5a1d81f81369ed676d652a2f1328fc1f5d3168f9497e5fac531c6a17f8e"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\common\\utils\\validate.ts",
+      "bytes": 459,
+      "sha256": "e8054548b632608bda5d6aa9e53a3bd5020977d7ecdaf0612832d7ba6dac4ebe"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\http\\axios.ts",
+      "bytes": 3929,
+      "sha256": "b8a284e27b5174e08d6eafe418a7bfbdc436e359c41da744c902639edfd12fd3"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\AppMain\\index.vue",
+      "bytes": 1362,
+      "sha256": "9d2e5227d1f528dae6e314f91686a093a414c2b8e61ddbdf9051d17f995b24e9"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\Breadcrumb\\index.vue",
+      "bytes": 1835,
+      "sha256": "5a98c26aa4d488ba90c5b889892890bb4433dec8b10c6b571c13987a0eb7b2b3"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\Footer\\index.vue",
+      "bytes": 424,
+      "sha256": "878b239c6cb1ca89e59b0a7c5b8801943fc1a8625e4763cb46c423cad029c9ce"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\Hamburger\\index.vue",
+      "bytes": 574,
+      "sha256": "9f17a5465c64a2d4ca79dda1b58c0db3d3ae09421b2675c388422d592f1ba7ec"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\Logo\\index.vue",
+      "bytes": 1535,
+      "sha256": "83e3647b088f89c534e3e194fae6d3455cd624fc2984a45a28df3c40d03e1705"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\NavigationBar\\index.vue",
+      "bytes": 3944,
+      "sha256": "46d4b74c699dc0ef6eadae3b0c1be87dcff8952751a8bf3734d0936ba5686a1b"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\RightPanel\\index.vue",
+      "bytes": 741,
+      "sha256": "18e1d2fb3b2d1390578772e0d41010da9e0f606ed405ef2000c98d5f1533edcc"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\Settings\\SelectLayoutMode.vue",
+      "bytes": 2309,
+      "sha256": "5420d59b31446c4c78f048565f68d21c49f4995e308f52373ecbac7a84c116e8"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\Settings\\index.vue",
+      "bytes": 2476,
+      "sha256": "7c6a5a12c5d71af76df369a9096b501c2063d7224959e284ba4a3fc44afb5a07"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\Sidebar\\Item.vue",
+      "bytes": 2815,
+      "sha256": "cd6ba5f33d9839fe087d03e0c792a74e7d2dd4222cf4a46bf7ae492d6b21f0b4"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\Sidebar\\Link.vue",
+      "bytes": 364,
+      "sha256": "d5cdc8ee9f93dcf53c51bd6a2dd349f7aa7e6ab836971ba8214b34f93f23a203"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\Sidebar\\index.vue",
+      "bytes": 4017,
+      "sha256": "ce42233cb8df2276eea6b84a85a74468a2112ce419ee07089059651c6ef7a45a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\TagsView\\ScrollPane.vue",
+      "bytes": 4923,
+      "sha256": "d2f8b332f2c97067d78f338847c17a57709da8c1990b6be9fb339f01a2df9c48"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\TagsView\\index.vue",
+      "bytes": 7949,
+      "sha256": "af82986252fb0417b8b799dcf19862ea788c3aeef3ad6e9a18364e7def3a1d04"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\components\\index.ts",
+      "bytes": 604,
+      "sha256": "9837dc6b5e0df9e6d72f233538599682729cf248b2c224548604bb49b6ba6a4a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\composables\\useResize.ts",
+      "bytes": 1741,
+      "sha256": "8f2617aa0ae4042d64e9953094975b07cb0028e6aa7c21d5e67a54e77b40f972"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\config.ts",
+      "bytes": 1578,
+      "sha256": "aa8e53bded9a5d3ce7bcc8ff76d264aaa996c48e6a66201a2197c8154e70b5e7"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\index.vue",
+      "bytes": 1745,
+      "sha256": "1abd587d47cdd8ffc8a5c44e3e9ccd4f66263a980c000023e0b5cd9387a2a987"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\modes\\LeftMode.vue",
+      "bytes": 4352,
+      "sha256": "f094a60fba1ff6acb227a8142fdd34dcde7d10607fa1e62b18f1ea3a088529bb"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\modes\\LeftTopMode.vue",
+      "bytes": 2625,
+      "sha256": "04d9318bb566e9923fbb2842d563fd3968383d0a052e6aa4e780b96f508f503a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\layouts\\modes\\TopMode.vue",
+      "bytes": 1664,
+      "sha256": "8d2a215584100aaffd0d8f7c274272ac616098d9a8437412b1b1555ea321a0f1"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\dashboard\\components\\Admin.vue",
+      "bytes": 504,
+      "sha256": "515a3b09ca29e281307ca4e2f33d7c7f14e8dc1643c963e2fb4950fca8b00b85"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\dashboard\\components\\Editor.vue",
+      "bytes": 505,
+      "sha256": "890f2942f9ad4e991bc7cf7f206b44ec67f9e00a0c544b8f4825b1756c164182"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\dashboard\\images\\dashboard.svg",
+      "bytes": 66284,
+      "sha256": "190cde0b820c7bf1ef95b5c33c2364489f5dbc9cd85432ce809cd8e3e3651755"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\dashboard\\index.vue",
+      "bytes": 343,
+      "sha256": "f4b9c70f6cfbc8780d92406bb583cf576723692e9027e750b24ba71457391177"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\composable-demo\\apis\\use-fetch-select.ts",
+      "bytes": 843,
+      "sha256": "76b121f7394d2db219e5f880b3a3a7ce9f6b2bce1e963250bd91ee9ce06ba94d"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\composable-demo\\apis\\use-fullscreen-loading.ts",
+      "bytes": 612,
+      "sha256": "d45a7a92c99b4c7786b94cc5fd1baa4ec7605bcba6e8ab6c63231f03ec57ecfe"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\composable-demo\\use-fetch-select.vue",
+      "bytes": 1145,
+      "sha256": "787886486b97bcaa80e564a9d417d8fc3de8896680f75218f83e53d180b04c2a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\composable-demo\\use-fullscreen-loading.vue",
+      "bytes": 1784,
+      "sha256": "4696084dd557c43b6c9e2f946d04e74aed1ce0e9bee9bcf9b5303b1970c8dc3a"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\composable-demo\\use-watermark.vue",
+      "bytes": 2197,
+      "sha256": "e68b6d2d116e58e5302f3a7ade45ed1b8c3ffbb18ec1ae66ec512bd394e23645"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\element-plus\\index.vue",
+      "bytes": 8620,
+      "sha256": "161f3165d049a38fccb6e787c5a98f857aef71060edf5aacd5756999ff78a0f5"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\level2\\index.vue",
+      "bytes": 633,
+      "sha256": "54dc2f5a7387b43eff9d0891267d1574f608cd823426fe04693e5e115e367718"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\level2\\level3\\index.vue",
+      "bytes": 301,
+      "sha256": "c27791a1a48025c8e4233d7ab1a086b5814de6a6446a4da1cb4da2bdfabaaabd"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\permission\\button-level.vue",
+      "bytes": 2325,
+      "sha256": "8663cd8245650643530242682bba489787e8f2551f4552951ebed2d7c34fd1f2"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\permission\\components\\SwitchUser.vue",
+      "bytes": 1229,
+      "sha256": "8d293fe45deefc328e1f40d5e557e720b50b18338924469477913fd595e1f676"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\permission\\page-level.vue",
+      "bytes": 444,
+      "sha256": "b2432fcdde24100c237773d65b3726002caa2fec84264d423888ead22080ba17"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\unocss\\index.vue",
+      "bytes": 642,
+      "sha256": "1b53f100a0146ecb7c10120c9511e8ae4076992bc61ea385f82d1b4d95fc9c45"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\demo\\vxe-table\\index.vue",
+      "bytes": 11479,
+      "sha256": "c75eb1258ce3081517897216912d41cf4f7db80599068d05c4e8723aebbde513"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\error\\403.vue",
+      "bytes": 235,
+      "sha256": "e50f5c28b45fca89bf828e4439dfb37ecc840e0a6d9808b2501f5f3f89624414"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\error\\404.vue",
+      "bytes": 235,
+      "sha256": "d3e40242c233828fdebfc0f597bfb3e1bc3086651b269da1c424dc55450446fa"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\error\\components\\Layout.vue",
+      "bytes": 465,
+      "sha256": "6b6c91d407e2896252450b05c9a1be991341a89dd0ec0e7ef80a71ec43f5b690"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\error\\images\\403.svg",
+      "bytes": 18269,
+      "sha256": "d56d54ff9520180241dbe79bc35c38c118eea47d01e1b090d309bd1465368eaa"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\error\\images\\404.svg",
+      "bytes": 61972,
+      "sha256": "75be3123e5bcfaf89b25db042d1524a59ad02eca6df613af50ed80bbaed1dcfd"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\apis\\index.ts",
+      "bytes": 441,
+      "sha256": "07e8336818f206bd896be2d1a38939d2c95941faf79fc055e0b63f9fbf6831d0"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\apis\\type.ts",
+      "bytes": 303,
+      "sha256": "8b9861ad783b6d6b6c3a50212eea757956a4cd29370c8fb4346275191aaa85e8"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\components\\Owl.vue",
+      "bytes": 2028,
+      "sha256": "36e4d6828d1e67f45a6ac7a551919f4fce6cdb813c2420ce84239d83bccc3080"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\composables\\useFocus.ts",
+      "bytes": 335,
+      "sha256": "c8258fbd8cb3e165bb0ea022268224ed176a3e869e6ee069f4884faf3353f4bc"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\images\\close-eyes.png",
+      "bytes": 2098,
+      "sha256": "2f57e4e005cc5e0bb8dc8ecbc8f1eb7b513989b7a97f711d41b6a376727ec061"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\images\\face.png",
+      "bytes": 6382,
+      "sha256": "385c9bb07c8e26aff6f78d187540c30c1e787ddf140c8413496de1ac21056205"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\images\\hand-down-left.png",
+      "bytes": 1382,
+      "sha256": "8bb88ac4539d5585a8e199cc032e6579c6f5f5440b6de70d58eae85eeabbeae0"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\images\\hand-down-right.png",
+      "bytes": 1306,
+      "sha256": "52e081675d0a99512ea33c8fb43cd8d332c0c12805e125decb0442b99ed74270"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\images\\hand-up-left.png",
+      "bytes": 2074,
+      "sha256": "4183eb8ed5318db246ea02939e5e884cb91a5346b440df4a6e17c3754474918c"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\images\\hand-up-right.png",
+      "bytes": 2015,
+      "sha256": "2c18ede7ab90747a433d66b372eb8bd362ff2b03b53c792b6b3bb05e20b5a7de"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\login\\index.vue",
+      "bytes": 5757,
+      "sha256": "159620cfbb29f43acfe70b7cf1c21f7cc5aebca68443e0d1591964e7b65838a1"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pages\\redirect\\index.vue",
+      "bytes": 204,
+      "sha256": "35cd6151184f80b3b42be5b17b065e456113da6909e6cd802c851b4af1ac3144"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pinia\\stores\\app.ts",
+      "bytes": 1624,
+      "sha256": "da8681a3b47ef4cb37bbc173a5de581deaa92a7f2010cc448801f14fe9cc8840"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pinia\\stores\\permission.ts",
+      "bytes": 2604,
+      "sha256": "2f1c08957e1e805e1d554bf5c50742c2999496a5083f187233af0ac30a52d355"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pinia\\stores\\settings.ts",
+      "bytes": 1652,
+      "sha256": "e674c4dbc842a5b8336dc7ff6c7194fa0ecfc9f60f994f4dfd9169a4a288ecda"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pinia\\stores\\tags-view.ts",
+      "bytes": 3254,
+      "sha256": "59c426c7d0db7b70f358a524a11ab466772e3cb0e2ee813c4ef8295788ea9409"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\pinia\\stores\\user.ts",
+      "bytes": 2259,
+      "sha256": "135830b32176f38dc66c92a34ef0c6b93863f0807356007a6d3d76a375296ec1"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\plugins\\element-plus-icons.ts",
+      "bytes": 305,
+      "sha256": "c9f96f50586a5eae076dac0ed68b9068e13011400820ba940c84901451befe88"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\plugins\\index.ts",
+      "bytes": 420,
+      "sha256": "64d99da3ae1a6b475961cd5cb40e7c6dc7809da090a32be74d0900cad2ab2d94"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\plugins\\permission-directive.ts",
+      "bytes": 957,
+      "sha256": "5decac5167a9d1020b7bef07192871431074ae0385565c53aa0f07e476199955"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\plugins\\svg-icon.ts",
+      "bytes": 192,
+      "sha256": "f84cd4e0f89ffbe7d92889948821ed06626d204384999fa8f6a1b54c9df5b8c6"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\plugins\\vxe-table.ts",
+      "bytes": 1629,
+      "sha256": "b1f673e549d83ed540d3580597fdf43595ba267207aca4f4a18f8db016880ae1"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\router\\helper.ts",
+      "bytes": 2389,
+      "sha256": "eb72723fb2b252dbc659717bd96b0b98cae7df0b204d317d22361b8839ca6245"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\src\\router\\whitelist.ts",
+      "bytes": 528,
+      "sha256": "88d6e4cb36f1a26a7afd70cac89f8422a781e9a420816ac6028cc0dfc30e8385"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\tests\\components\\Notify.test.ts",
+      "bytes": 849,
+      "sha256": "e06b0b1bd7fe96de5e370a1d0aca5247705384dc47d9ea114b0fce8b3373f335"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\tests\\demo.test.ts",
+      "bytes": 1042,
+      "sha256": "ec1ad235b0ecc64736795db22d52af7745016826d7a1d56293e21115c26ccd37"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\tests\\utils\\validate.test.ts",
+      "bytes": 776,
+      "sha256": "24e7beb0a9afd763b1375b9b5019eb34b64dfc03fd95fef36150103b3bcd78c1"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\types\\api.d.ts",
+      "bytes": 146,
+      "sha256": "3e7e0973f5794a10d575087e27de4d5f794a60aa6a84d8d06bc46f46bd8b74c0"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\types\\auto\\svg-component-global.d.ts",
+      "bytes": 1205,
+      "sha256": "d49564f5ba936a8e8cae7c0ba3610d3ac446681ea6c7709f0f61d8ecd759b46c"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\types\\auto\\svg-component.d.ts",
+      "bytes": 1473,
+      "sha256": "6a4500984d4ce510a0ff0048a82c701713070fd202a78aed48cc20dcc6479eb3"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\types\\directives.d.ts",
+      "bytes": 288,
+      "sha256": "15adbc893cd26e9fb37a08eee0e2f63c66ba35d5bc4d9be1e6cfe88b4259dcb3"
+    },
+    {
+      "path": "C:\\vscodeProject\\后台框架\\Score-Analysis-Platform\\uno.config.ts",
+      "bytes": 606,
+      "sha256": "3f63fc6ab8103938e5cebcaabc51b1d5c229879407695ac9accaf52130981f12"
+    }
+  ],
+  "unusedProductionDependencies": [
+    "axios",
+    "dayjs",
+    "lodash-es",
+    "mitt",
+    "nprogress",
+    "path-browserify",
+    "path-to-regexp",
+    "screenfull",
+    "vxe-table"
+  ],
+  "unusedDevelopmentDependencies": [
+    "@types/lodash-es",
+    "@types/nprogress",
+    "@types/path-browserify",
+    "unocss",
+    "unplugin-svg-component",
+    "vite-svg-loader",
+    "vite-plugin-mcp"
+  ]
+}
