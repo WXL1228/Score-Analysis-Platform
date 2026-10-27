@@ -13,6 +13,7 @@ export const constantRoutes: RouteRecordRaw[] = [
       { path: "scores", name: "GradebookScores", component: () => import("@/pages/gradebook/Scores.vue"), meta: { title: "成绩录入" } },
       { path: "students", name: "GradebookStudents", component: () => import("@/pages/gradebook/Students.vue"), meta: { title: "学生管理" } },
       { path: "analysis", name: "GradebookAnalysis", component: () => import("@/pages/gradebook/Analysis.vue"), meta: { title: "学科分析" } },
+      { path: "unit-teaching", name: "GradebookUnitTeaching", component: () => import("@/pages/gradebook/UnitTeaching.vue"), meta: { title: "单元目标与分层教学" } },
       { path: "trends", name: "GradebookTrends", component: () => import("@/pages/gradebook/Trends.vue"), meta: { title: "趋势追踪" } },
       { path: "reports", name: "GradebookReports", component: () => import("@/pages/gradebook/Reports.vue"), meta: { title: "报告中心" } },
       { path: "settings", name: "GradebookSettings", component: () => import("@/pages/gradebook/Settings.vue"), meta: { title: "班级设置" } }

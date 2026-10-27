@@ -1,12 +1,15 @@
 import { CacheKey } from "@@/constants/cache-key"
 import { createPinia, setActivePinia } from "pinia"
 import { beforeEach, describe, expect, it, vi } from "vitest"
+import { createDemo } from "@/pages/gradebook/demo"
 import { parseArchive } from "@/pages/gradebook/validation"
 import { useGradebookStore } from "@/pinia/stores/gradebook"
 
 describe("班级与考试删除", () => {
   beforeEach(() => {
     localStorage.clear()
+    const data = createDemo()
+    localStorage.setItem(CacheKey.GRADEBOOK_DATA, JSON.stringify({ version: 1, activeWorkspaceId: data.id, workspaces: [data] }))
     setActivePinia(createPinia())
   })
 

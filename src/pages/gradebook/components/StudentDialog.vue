@@ -31,13 +31,17 @@ function save() {
         </el-form-item><el-form-item label="姓名（必填）">
           <el-input v-model="form.name" maxlength="30" />
         </el-form-item>
-      </div><el-form-item label="班级">
+      </div><el-form-item label="性别（可选）">
+        <el-input v-model="form.gender" maxlength="10" placeholder="例如：男 / 女" />
+      </el-form-item><el-form-item label="班级">
         <el-input :model-value="store.workspace.classes.find(item => item.id === form.classId)?.name" disabled />
-      </el-form-item><el-form-item label="重点关注">
-        <el-switch v-model="form.focus" />
-      </el-form-item><el-form-item label="教师备注">
-        <el-input v-model="form.note" type="textarea" :rows="3" maxlength="300" show-word-limit placeholder="记录学习情况或支持计划" />
       </el-form-item>
+      <!-- <el-form-item label="重点关注">
+        <el-switch v-model="form.focus" />
+      </el-form-item> -->
+      <!-- <el-form-item label="教师评价">
+        <el-input v-model="form.note" type="textarea" :rows="3" maxlength="300" show-word-limit aria-label="学生教师评价" placeholder="记录学习表现、成长进步或需要支持的方面" />
+      </el-form-item> -->
     </el-form>
     <template #footer>
       <el-button @click="visible = false">

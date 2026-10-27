@@ -30,7 +30,7 @@ export function validateWorkspace(data: Workspace): void {
   requireUniqueIds(data.classes)
   requireUniqueIds(data.students)
   requireUniqueIds(data.exams)
-  if (validateSubjects(data.subjects)) throw new Error("备份学科设置无效")
+  if (data.subjects.length && validateSubjects(data.subjects)) throw new Error("备份学科设置无效")
   if (data.classes.some(item => typeof item.name !== "string" || !item.name.trim())
     || new Set(data.classes.map(item => item.name.trim())).size !== data.classes.length) {
     throw new Error("备份班级名称无效或重复")
@@ -42,13 +42,14 @@ export function validateWorkspace(data: Workspace): void {
     const key = `${student.classId}:${student.number}`
     if (!classIds.has(student.classId) || typeof student.number !== "string" || !student.number.trim()
       || typeof student.name !== "string" || !student.name.trim() || typeof student.focus !== "boolean"
-      || typeof student.note !== "string" || identities.has(key)) {
+      || typeof student.note !== "string" || (student.gender !== undefined && typeof student.gender !== "string") || identities.has(key)) {
       throw new Error("备份学生数据无效或学号重复")
     }
     identities.add(key)
   }
   for (const exam of data.exams) {
     if (typeof exam.name !== "string" || !exam.name.trim() || !/^\d{4}-\d{2}-\d{2}$/.test(exam.date)
+      || (exam.subjectsCustomized !== undefined && typeof exam.subjectsCustomized !== "boolean")
       || !Array.isArray(exam.subjects) || validateSubjects(exam.subjects)) {
       throw new Error("备份考试数据无效")
     }
@@ -63,6 +64,36 @@ export function validateWorkspace(data: Workspace): void {
       if (!subject || (score !== null && (typeof score !== "number" || !Number.isFinite(score) || score < 0 || score > subject.max))) throw new Error("备份包含无效分数")
     }
     recordKeys.add(key)
+  }
+  if (data.unitPlans !== undefined) {
+    if (!Array.isArray(data.unitPlans)) throw new Error("单元计划格式不正确")
+    requireUniqueIds(data.unitPlans)
+    for (const plan of data.unitPlans) {
+      const subject = data.subjects.find(item => item.id === plan.subjectId)
+      if (typeof plan.name !== "string" || !plan.name.trim() || !classIds.has(plan.classId) || !subject
+        || !Array.isArray(plan.periods) || !plan.periods.length || !Array.isArray(plan.entries)) {
+        throw new Error("单元计划名称、班级或学科关联无效")
+      }
+      requireUniqueIds(plan.periods)
+      if (plan.periods.some(period => typeof period.name !== "string" || !period.name.trim())
+        || new Set(plan.periods.map(period => period.name.trim())).size !== plan.periods.length) {
+        throw new Error("单元名称不能为空或重复")
+      }
+      const periodIds = new Set(plan.periods.map(period => period.id))
+      const entryIds = new Set<string>()
+      const validScore = (score: unknown) => score === null || (typeof score === "number" && Number.isFinite(score) && score >= 0 && score <= subject.max)
+      for (const entry of plan.entries) {
+        const student = data.students.find(item => item.id === entry.studentId)
+        if (!student || student.classId !== plan.classId || entryIds.has(entry.studentId)) throw new Error(`「${plan.name}」包含无效或重复的学生关联`)
+        if (typeof entry.level !== "string" || typeof entry.task !== "string" || !entry.scores || typeof entry.scores !== "object" || Array.isArray(entry.scores)) throw new Error(`「${plan.name}」的分层或单元成绩格式不正确`)
+        if (!validScore(entry.baseline)) throw new Error(`「${plan.name}」的${student.name}学情调研分数须为 0～${subject.max} 或留空`)
+        for (const [periodId, scores] of Object.entries(entry.scores)) {
+          if (!periodIds.has(periodId)) throw new Error(`「${plan.name}」包含不存在的单元成绩`)
+          if (!scores || typeof scores !== "object" || !validScore(scores.target) || !validScore(scores.actual)) throw new Error(`「${plan.name}」的${student.name}目标分数与实考分数须为 0～${subject.max} 或留空`)
+        }
+        entryIds.add(entry.studentId)
+      }
+    }
   }
   if ((data.classes.length ? !classIds.has(data.selectedClassId) : data.selectedClassId !== "") || (data.exams.length ? !data.exams.some(item => item.id === data.selectedExamId) : data.selectedExamId !== "")) throw new Error("备份的当前班级或考试不存在")
 }

@@ -22,6 +22,8 @@ const sheets = ref<{ name: string, matrix: unknown[][] }[]>([])
 const selectedSheet = ref(0)
 const query = ref("")
 const page = ref(1)
+const importContext = computed(() => JSON.stringify([store.workspace.id, store.workspace.selectedClassId, store.exam?.id, store.exam?.subjects]))
+let readRequest = 0
 const filtered = computed(() =>
   store.rows.filter(
     row => row.name.includes(query.value) || row.number.includes(query.value)
@@ -33,13 +35,14 @@ const paged = computed(() =>
 watch(
   [
     query,
-    () => store.workspace.selectedClassId,
-    () => store.workspace.selectedExamId
+    importContext
   ],
   () => {
     page.value = 1
     preview.value = null
     previewVisible.value = false
+    readRequest++
+    isLoading.value = false
   }
 )
 watch(selectedSheet, parseSheet)
@@ -54,28 +57,35 @@ function parseSheet() {
 async function pickFile(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file || !store.exam) return
+  const request = ++readRequest
+  const context = importContext.value
   isLoading.value = true
   try {
-    sheets.value = await readScoreFile(file)
+    const loaded = await readScoreFile(file)
+    if (request !== readRequest || context !== importContext.value) return
+    sheets.value = loaded
     selectedSheet.value = 0
     parseSheet()
     previewVisible.value = true
   } catch (error) {
-    ElMessage.error(`读取失败：${(error as Error).message}`)
+    if (request === readRequest) ElMessage.error(`读取失败：${(error as Error).message}`)
   } finally {
-    isLoading.value = false
+    if (request === readRequest) isLoading.value = false
     if (input.value) input.value.value = ""
   }
 }
 async function confirmImport() {
   if (!preview.value?.rows.length || preview.value.errors.length) return
+  const context = importContext.value
+  const rows = preview.value.rows
   try {
     await ElMessageBox.confirm(
       `将导入 ${preview.value.rows.length} 条成绩。同班同学号已有成绩的匹配科目将被更新，包括用空白覆盖为缺考。是否继续？`,
       "确认导入",
       { confirmButtonText: "确认导入", cancelButtonText: "取消" }
     )
-    store.importScores(preview.value.rows)
+    if (context !== importContext.value || preview.value?.rows !== rows) return ElMessage.error("考试或学科配置已变化，请重新上传成绩文件")
+    store.importScores(rows)
     previewVisible.value = false
     ElMessage.success("导入成功，排名与分析已自动更新")
   } catch (error) {
@@ -87,13 +97,14 @@ function edit(row?: RankedStudent) {
   scoreVisible.value = true
 }
 async function download(template = false) {
-  if (!store.exam) return
+  if (!template && !store.exam) return
   isLoading.value = true
   try {
     await exportWorkbook(
       store.exam,
-      store.schoolClass.name,
-      template ? undefined : store.rows
+      store.schoolClass.id ? store.schoolClass.name : "",
+      template ? undefined : store.rows,
+      template ? store.workspace.subjects : undefined
     )
   } catch (error) {
     ElMessage.error((error as Error).message)
@@ -114,7 +125,13 @@ async function download(template = false) {
           CSV。识别学科列，自动计算总分、平均分与排名。
         </p>
         <p class="hint">
-          同一考试导入其他班级即可横向对比；多个工作表可选择后分别导入。缺考请留空，学号请设为文本。
+          支持「序号、姓名、性别、各科成绩」成绩单，序号仅用于排序；无学号时按班级和姓名匹配。底部平均分行自动跳过，缺考请留空。
+        </p>
+        <p class="hint">
+          模板包含语文、数学、英语、道法、物理、化学、生物、历史、地理。未开设的学科可删除整列；已有考试只导入已设置的学科。
+        </p>
+        <p v-if="store.exam" class="hint">
+          本次考试配置学科：{{ store.exam.subjects.map(subject => subject.name).join('、') }}。文件中的其他学科列不导入；可在班级设置的考试记录中编辑配置。
         </p>
       </div>
       <div class="import-actions">
@@ -128,7 +145,7 @@ async function download(template = false) {
           上传成绩文件
         </el-button><el-button
           :icon="Download"
-          :disabled="!store.exam || !store.schoolClass.id"
+          :loading="isLoading"
           @click="download(true)"
         >
           下载 Excel 模板
@@ -184,7 +201,7 @@ async function download(template = false) {
           label="姓名"
           width="100"
           fixed
-        /><el-table-column
+        /><el-table-column prop="gender" label="性别" width="60" /><el-table-column
           v-for="subject in store.exam?.subjects"
           :key="subject.id"
           :label="subject.name"
@@ -261,6 +278,8 @@ async function download(template = false) {
           preview?.subjects.join("、")
         }}
         · 缺少的学科列保留原成绩，存在的空白分数将记录为缺考。
+        未配置到本次考试的学科列不会导入。
+        未填学号时按同班姓名匹配，新学生自动生成内部学号；重名请填写学号。
       </p>
       <el-alert
         v-if="preview?.errors.length"
@@ -285,7 +304,7 @@ async function download(template = false) {
           prop="name"
           label="姓名"
           width="100"
-        /><el-table-column
+        /><el-table-column prop="gender" label="性别" width="60" /><el-table-column
           prop="className"
           label="班级"
           min-width="130"

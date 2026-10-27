@@ -7,7 +7,7 @@ import ClassImportDialog from "./components/ClassImportDialog.vue"
 import ExamDialog from "./components/ExamDialog.vue"
 import { downloadBlob } from "./files"
 import { createId } from "./id"
-import { parseArchive, validateSubjects } from "./validation"
+import { parseArchive } from "./validation"
 
 defineOptions({ name: "GradebookSettings" })
 const store = useGradebookStore()
@@ -33,6 +33,9 @@ watch(() => store.workspace.id, () => {
   editWorkspaceVisible.value = false
   editClassesVisible.value = false
   editSubjectsVisible.value = false
+  switchWorkspaceVisible.value = false
+  classVisible.value = false
+  examVisible.value = false
 }, { immediate: true })
 function editProfile() {
   name.value = store.workspace.name
@@ -55,16 +58,28 @@ function switchProfile() {
   store.archive.activeWorkspaceId = selectedWorkspaceId.value
   switchWorkspaceVisible.value = false
 }
+async function deleteProfile() {
+  const data = store.workspace
+  try {
+    await ElMessageBox.confirm(`删除教学档案「${data.name}」及其中的 ${data.classes.length} 个班级、${data.students.length} 位学生、${data.exams.length} 次考试、${data.records.length} 条成绩和 ${data.unitPlans?.length ?? 0} 个单元计划？其他教学档案保留。删除会立即保存，建议先下载备份。${store.archive.workspaces.length === 1 ? "删除最后一个档案后会创建一个空白档案。" : ""}`, "删除教学档案", { type: "warning", confirmButtonText: "删除档案及全部数据", cancelButtonText: "取消" })
+    if (store.workspace.id !== data.id || !store.deleteWorkspace(data.id)) return
+    ElMessage.success("教学档案及其数据已删除")
+  } catch (error) {
+    if (error instanceof Error) ElMessage.error(error.message)
+  }
+}
 function editSubjects() {
   subjects.value = store.workspace.subjects.map(item => ({ ...item }))
   editSubjectsVisible.value = true
 }
 function saveSubjects() {
-  const error = validateSubjects(subjects.value)
-  if (error) return ElMessage.error(error)
-  store.workspace.subjects = subjects.value.map(item => ({ ...item, name: item.name.trim() }))
-  editSubjectsVisible.value = false
-  ElMessage.success("学科与分数线已保存；用于之后的新考试")
+  try {
+    store.updateSubjectSettings(subjects.value)
+    editSubjectsVisible.value = false
+    ElMessage.success("默认学科已保存；单独配置的考试保持各自设置")
+  } catch (error) {
+    ElMessage.error((error as Error).message)
+  }
 }
 function editClasses() {
   classes.value = store.workspace.classes.map(item => ({ ...item }))
@@ -161,6 +176,8 @@ async function restore(event: Event) {
             编辑
           </el-button><el-button :icon="Plus" @click="newWorkspaceVisible = true">
             新建空白档案
+          </el-button><el-button :icon="Delete" type="danger" plain @click="deleteProfile">
+            删除当前档案
           </el-button>
         </div>
       </div>
@@ -191,10 +208,10 @@ async function restore(event: Event) {
     </section>
     <section class="panel section-gap">
       <div class="panel-heading">
-        <div><h2>学科与分数线</h2><p>保存后用于新考试。已有考试使用创建时的快照，避免改变历史统计口径。</p></div><el-button :icon="Edit" type="primary" plain aria-label="编辑学科与分数线" @click="editSubjects">
+        <div><h2>学科与分数线</h2><p>作为考试的默认配置；单独配置的考试使用各自的学科与分数线，其他考试的同名学科继续同步默认设置。</p></div><el-button :icon="Edit" type="primary" plain aria-label="编辑学科与分数线" @click="editSubjects">
           编辑
         </el-button>
-      </div><el-table :data="store.workspace.subjects">
+      </div><el-table :data="store.workspace.subjects" empty-text="暂无学科，可点击编辑添加，或在新建班级时上传成绩单自动识别">
         <el-table-column prop="name" label="学科名称" min-width="140" /><el-table-column prop="max" label="满分" min-width="100" /><el-table-column prop="pass" label="及格分" min-width="100" /><el-table-column prop="excellent" label="优秀分" min-width="100" />
       </el-table>
     </section>
@@ -238,13 +255,13 @@ async function restore(event: Event) {
           </template>
         </el-table-column><el-table-column label="操作" width="100" align="center">
           <template #default="{ row }">
-            <el-button text type="danger" :disabled="subjects.length === 1" @click="subjects = subjects.filter(item => item.id !== row.id)">
+            <el-button text type="danger" @click="subjects = subjects.filter(item => item.id !== row.id)">
               移除
             </el-button>
           </template>
         </el-table-column>
       </el-table><p class="hint section-gap">
-        分数线要求：0 ≤ 及格分 ≤ 优秀分 ≤ 满分。至少保留一门学科。
+        分数线要求：0 ≤ 及格分 ≤ 优秀分 ≤ 满分。可暂不设置默认学科，也可在新建或编辑考试时单独配置。
       </p>
       <template #footer>
         <el-button @click="editSubjectsVisible = false">
@@ -256,11 +273,11 @@ async function restore(event: Event) {
     </el-dialog>
     <section class="panel section-gap">
       <div class="panel-heading">
-        <div><h2>考试记录</h2><p>每次考试独立留存成绩，按日期追踪变化</p></div><el-button :icon="Plus" @click="openExam()">
+        <div><h2>考试记录</h2><p>点击编辑可配置本次考试的学科与分数线，上传成绩只导入配置的学科。</p></div><el-button :icon="Plus" @click="openExam()">
           新建考试
         </el-button>
       </div><el-table :data="store.workspace.exams" empty-text="暂无考试">
-        <el-table-column prop="name" label="考试名称" min-width="160" /><el-table-column prop="date" label="日期" width="130" /><el-table-column label="学科快照" min-width="260">
+        <el-table-column prop="name" label="考试名称" min-width="160" /><el-table-column prop="date" label="日期" width="130" /><el-table-column label="考试学科与满分" min-width="260">
           <template #default="{ row }">
             {{ row.subjects.map((item: Subject) => `${item.name} ${item.max}分`).join(' · ') }}
           </template>

@@ -120,7 +120,7 @@ function submit() {
       </div>
       <input ref="fileInput" type="file" accept=".xlsx,.csv" hidden @change="pickFile">
       <p class="hint section-gap">
-        表头需包含学号、姓名和学科名称。文件中的学生统一归入上方填写的新班级；单个工作表须只包含一个班级。
+        支持「序号、姓名、性别、各科成绩」格式。序号仅用于排序，学号可选；无学号时自动生成内部编号，同班重名须填写学号。底部平均分行自动跳过；单个工作表须只包含一个班级。
       </p>
       <template v-if="fileName">
         <el-form-item v-if="sheets.length" label="工作表" class="section-gap">
@@ -158,9 +158,9 @@ function submit() {
           </el-table-column>
         </el-table>
         <el-checkbox v-model="setDefaultSubjects" class="section-gap">
-          设为当前档案后续新考试的默认学科
+          同步到当前档案学科设置
         </el-checkbox><p class="hint">
-          勾选后，班级设置中的默认学科会更新为本次选中的科目；历史考试仍使用原来的学科快照。
+          勾选后，班级设置会更新为本次选中的科目，并同步已有考试中同学科的满分、及格分和优秀分；已有成绩数值保留。
         </p>
         <el-alert v-if="!isLoading && preview.errors.length" type="error" title="请修正以下问题，当前尚未创建任何数据" :closable="false" class="section-gap">
           <ul>
@@ -173,7 +173,7 @@ function submit() {
           <h2>学生与成绩预览</h2><span class="subtle-tag">{{ preview.rows.length }} 位学生 · {{ subjects.length }} 门学科</span>
         </div>
         <el-table :data="preview.rows.slice(0, 20)" max-height="320">
-          <el-table-column prop="number" label="学号" width="90" /><el-table-column prop="name" label="姓名" width="100" /><el-table-column v-for="subject in subjects" :key="subject.id" :label="subject.name" min-width="80">
+          <el-table-column prop="number" label="学号" width="90" /><el-table-column prop="name" label="姓名" width="100" /><el-table-column prop="gender" label="性别" width="60" /><el-table-column v-for="subject in subjects" :key="subject.id" :label="subject.name" min-width="80">
             <template #default="{ row }">
               {{ row.scores[subject.id] ?? '缺考' }}
             </template>

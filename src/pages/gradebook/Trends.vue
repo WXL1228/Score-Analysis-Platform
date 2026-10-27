@@ -68,7 +68,7 @@ const subjectRateOption = computed(() => lineOption(labels.value, subjectIds.val
     </section>
     <section class="panel section-gap">
       <div class="panel-heading">
-        <div><h2>班级各学科平均得分率趋势</h2><p>使用每次考试独立保存的学科满分</p></div>
+        <div><h2>班级各学科平均得分率趋势</h2><p>按档案学科设置中的满分计算各科得分率</p></div>
       </div><ChartPanel :option="subjectRateOption" label="班级各学科平均得分率趋势" />
     </section>
     <section class="panel section-gap">

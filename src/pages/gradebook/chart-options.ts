@@ -2,7 +2,7 @@ import type { EChartsOption } from "echarts"
 
 const COLORS = ["#378777", "#d6a862", "#829dd0", "#c78b90", "#97af84"]
 
-export function barOption(labels: string[], series: { name: string, data: number[] }[], max?: number): EChartsOption {
+export function barOption(labels: string[], series: { name: string, data: (number | null)[] }[], max?: number): EChartsOption {
   return {
     color: COLORS,
     tooltip: { trigger: "axis" },

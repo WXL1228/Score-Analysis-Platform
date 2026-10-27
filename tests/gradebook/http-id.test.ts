@@ -22,17 +22,24 @@ describe("公网 HTTP 的业务 ID 兼容性", () => {
 
   it("没有 randomUUID 时仍可首次启动并创建新的教学档案", () => {
     const store = useGradebookStore()
-    expect(store.workspace.demo).toBe(true)
+    expect(store.workspace.demo).toBe(false)
     expect(store.loadError).toBe("")
+    expect(store.workspace.classes).toEqual([])
+    expect(store.workspace.subjects).toEqual([])
+    expect(store.workspace.students).toEqual([])
+    expect(store.workspace.exams).toEqual([])
+    expect(store.workspace.records).toEqual([])
     store.addWorkspace("我的班级", "陈老师")
     expect(store.workspace.name).toBe("我的班级")
     expect(store.schoolClass.id).toBe("")
     expect(store.workspace.classes).toEqual([])
+    expect(store.workspace.subjects).toEqual([])
   })
 
   it("没有 randomUUID 时仍可导入新班级和新学生", () => {
     const store = useGradebookStore()
     const data = createWorkspace("HTTP 测试档案")
+    data.subjects = [{ id: "math", name: "数学", max: 100, pass: 60, excellent: 85 }]
     data.exams.push({ id: "http-exam", name: "阶段考试", date: "2026-10-13", subjects: structuredClone(data.subjects) })
     data.selectedExamId = "http-exam"
     store.restore({ version: 1, activeWorkspaceId: data.id, workspaces: [data] })

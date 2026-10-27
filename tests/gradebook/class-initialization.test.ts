@@ -2,6 +2,7 @@ import type { ClassInitialization } from "@/pages/gradebook/types"
 import { CacheKey } from "@@/constants/cache-key"
 import { createPinia, setActivePinia } from "pinia"
 import { beforeEach, describe, expect, it, vi } from "vitest"
+import { createDemo, createWorkspace, DEFAULT_SUBJECTS } from "@/pages/gradebook/demo"
 import { inferSubjects, parseClassScoreMatrix } from "@/pages/gradebook/files"
 import { parseArchive } from "@/pages/gradebook/validation"
 import { useGradebookStore } from "@/pinia/stores/gradebook"
@@ -22,6 +23,9 @@ function inputFor(store: ReturnType<typeof useGradebookStore>): ClassInitializat
 describe("新建班级上传成绩单初始化", () => {
   beforeEach(() => {
     localStorage.clear()
+    const data = createWorkspace("学科导入测试")
+    data.subjects = structuredClone(DEFAULT_SUBJECTS)
+    localStorage.setItem(CacheKey.GRADEBOOK_DATA, JSON.stringify({ version: 1, activeWorkspaceId: data.id, workspaces: [data] }))
     setActivePinia(createPinia())
   })
 
@@ -29,6 +33,7 @@ describe("新建班级上传成绩单初始化", () => {
     const store = useGradebookStore()
     store.addWorkspace("空白教学档案", "测试老师")
     expect(store.workspace.classes).toEqual([])
+    expect(store.workspace.subjects).toEqual([])
     expect(store.workspace.selectedClassId).toBe("")
     expect(store.workspace.students).toEqual([])
     expect(store.workspace.exams).toEqual([])
@@ -74,8 +79,10 @@ describe("新建班级上传成绩单初始化", () => {
   })
 
   it("一次创建班级、学生、科目与首次考试，并计算总分和排名", () => {
+    const data = createDemo()
+    localStorage.setItem(CacheKey.GRADEBOOK_DATA, JSON.stringify({ version: 1, activeWorkspaceId: data.id, workspaces: [data] }))
     const store = useGradebookStore()
-    const oldExams = JSON.stringify(store.workspace.exams)
+    const oldExams = JSON.stringify(store.workspace.exams.map(({ id, name, date }) => ({ id, name, date })))
     const oldStudents = JSON.stringify(store.workspace.students)
     const oldRecords = JSON.stringify(store.workspace.records)
     const input = inputFor(store)
@@ -88,7 +95,8 @@ describe("新建班级上传成绩单初始化", () => {
     expect(store.rows.map(row => row.total)).toEqual([300, 285, 170])
     expect(store.rows.map(row => row.rank)).toEqual([1, 2, 3])
     expect(store.rows[0].average).toBe(100)
-    expect(JSON.stringify(store.workspace.exams.slice(0, 3))).toBe(oldExams)
+    expect(JSON.stringify(store.workspace.exams.slice(0, 3).map(({ id, name, date }) => ({ id, name, date })))).toBe(oldExams)
+    expect(store.workspace.exams.slice(0, 3).every(exam => exam.subjects.find(subject => subject.id === "math")?.max === 150)).toBe(true)
     expect(JSON.stringify(store.workspace.students.slice(0, 48))).toBe(oldStudents)
     expect(JSON.stringify(store.workspace.records.slice(0, 144))).toBe(oldRecords)
   })
@@ -131,6 +139,7 @@ describe("新建班级上传成绩单初始化", () => {
 
   it("同名班级被阻止，多班级工作表不会合并导入", () => {
     const store = useGradebookStore()
+    store.initializeClass({ name: "重复测试班", rows: [], setDefaultSubjects: false })
     const input = inputFor(store)
     input.name = store.schoolClass.name
     expect(() => store.initializeClass(input)).toThrow("重复")
@@ -148,16 +157,31 @@ describe("新建班级上传成绩单初始化", () => {
     expect(parseClassScoreMatrix(matrix, chosen, "测试班").errors).toEqual([])
   })
 
-  it("可保留现有默认学科，首次考试快照不随设置修改", () => {
+  it("不更新档案默认学科时，首次考试独立保留导入配置，重开与恢复不会被默认分数线覆盖", () => {
     const store = useGradebookStore()
     const defaults = JSON.stringify(store.workspace.subjects)
     const input = inputFor(store)
     input.setDefaultSubjects = false
     store.initializeClass(input)
     expect(JSON.stringify(store.workspace.subjects)).toBe(defaults)
-    const examMath = store.exam!.subjects.find(subject => subject.id === "math")!
-    store.workspace.subjects.find(subject => subject.id === "math")!.max = 200
-    expect(examMath.max).toBe(150)
+    expect(store.workspace.subjects.find(subject => subject.id === "math")!.max).toBe(100)
+    expect(store.exam!.subjects.find(subject => subject.id === "math")!.max).toBe(150)
+    expect(store.exam!.subjectsCustomized).toBe(true)
+    expect(store.rows.some(row => row.scores.math === 120)).toBe(true)
+    const backup = JSON.parse(JSON.stringify(store.archive))
+    store.$dispose()
+    setActivePinia(createPinia())
+    const reopened = useGradebookStore()
+    expect(reopened.subjectSyncWarning).toBe("")
+    expect(reopened.exam!.subjects.find(subject => subject.id === "math")!.max).toBe(150)
+    expect(JSON.stringify(reopened.workspace.subjects)).toBe(defaults)
+    reopened.restore(backup)
+    expect(reopened.subjectSyncWarning).toBe("")
+    expect(reopened.exam!.subjects.find(subject => subject.id === "math")!.max).toBe(150)
+    expect(reopened.rows.some(row => row.scores.math === 120)).toBe(true)
+    expect(JSON.stringify(reopened.workspace.subjects)).toBe(defaults)
+    reopened.updateSubjectSettings(reopened.workspace.subjects.map(subject => ({ ...subject, max: subject.id === "math" ? 200 : subject.max })))
+    expect(reopened.exam!.subjects.find(subject => subject.id === "math")!.max).toBe(150)
   })
 
   it("不上传成绩单仍可创建空白班级", () => {

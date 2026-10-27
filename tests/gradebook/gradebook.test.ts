@@ -144,6 +144,7 @@ describe("浏览器持久化与数据恢复", () => {
   })
 
   it("多个教师档案数据隔离，备份可完整恢复", () => {
+    localStorage.setItem(CacheKey.GRADEBOOK_DATA, JSON.stringify(archive(createDemo())))
     const store = useGradebookStore()
     const oldId = store.workspace.id
     store.addWorkspace("我的班级", "李老师")

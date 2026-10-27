@@ -17,7 +17,7 @@ export function createWorkspace(name: string, teacher = ""): Workspace {
     demo: false,
     warningThreshold: 5,
     classes: [],
-    subjects: structuredClone(DEFAULT_SUBJECTS),
+    subjects: [],
     students: [],
     exams: [],
     records: [],
@@ -29,6 +29,7 @@ export function createWorkspace(name: string, teacher = ""): Workspace {
 export function createDemo(): Workspace {
   const data = createWorkspace("教学档案", "老师好！")
   data.demo = true
+  data.subjects = structuredClone(DEFAULT_SUBJECTS)
   data.classes = [{ id: "class-1", name: "八年级（1）班" }, { id: "class-2", name: "八年级（2）班" }]
   data.selectedClassId = "class-1"
   const names = ["陈星宇", "林予安", "张可欣", "王一诺", "李沐辰", "周子涵", "赵思远", "刘书瑶", "吴雨桐", "徐知行", "孙若溪", "郑明轩", "黄梓萱", "何景然", "高语宁", "许墨", "罗嘉言", "沈亦凡", "唐心悦", "梁以晨", "宋清禾", "谢宇航", "程乐知", "苏晚晴"]

@@ -15,6 +15,7 @@ export interface Student {
   id: string
   number: string
   name: string
+  gender?: string
   classId: string
   focus: boolean
   note: string
@@ -25,12 +26,62 @@ export interface Exam {
   name: string
   date: string
   subjects: Subject[]
+  subjectsCustomized?: boolean
 }
 
 export interface ScoreRecord {
   examId: string
   studentId: string
   scores: Record<string, number | null>
+}
+
+export interface UnitPeriod {
+  id: string
+  name: string
+}
+
+export interface UnitScores {
+  target: number | null
+  actual: number | null
+}
+
+export interface UnitTrackingEntry {
+  studentId: string
+  baseline: number | null
+  level: string
+  task: string
+  scores: Record<string, UnitScores>
+}
+
+export interface UnitTrackingPlan {
+  id: string
+  name: string
+  classId: string
+  subjectId: string
+  periods: UnitPeriod[]
+  entries: UnitTrackingEntry[]
+}
+
+export interface UnitImportRow extends Omit<UnitTrackingEntry, "studentId"> {
+  number: string
+  name: string
+  gender?: string
+  line: number
+}
+
+export interface UnitImportPreview {
+  periods: UnitPeriod[]
+  rows: UnitImportRow[]
+  errors: string[]
+  warnings: string[]
+}
+
+export interface UnitPlanImport {
+  name: string
+  className: string
+  subjectId: string
+  periods: UnitPeriod[]
+  rows: UnitImportRow[]
 }
 
 export interface Workspace {
@@ -44,6 +95,7 @@ export interface Workspace {
   students: Student[]
   exams: Exam[]
   records: ScoreRecord[]
+  unitPlans?: UnitTrackingPlan[]
   selectedClassId: string
   selectedExamId: string
 }
@@ -78,6 +130,7 @@ export interface Statistics {
 export interface ImportRow {
   number: string
   name: string
+  gender?: string
   className: string
   scores: Record<string, number | null>
   line: number

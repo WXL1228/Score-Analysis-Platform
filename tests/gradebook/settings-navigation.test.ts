@@ -1,14 +1,18 @@
+import { CacheKey } from "@@/constants/cache-key"
 import { mount } from "@vue/test-utils"
 import { createPinia, setActivePinia } from "pinia"
 import { describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
 import { createMemoryHistory, createRouter } from "vue-router"
+import { createDemo } from "@/pages/gradebook/demo"
 import Settings from "@/pages/gradebook/Settings.vue"
 import { useGradebookStore } from "@/pinia/stores/gradebook"
 
 describe("考试记录成绩入口", () => {
   it("点击后选择该次考试、进入成绩录入并回到页首，不改动成绩", async () => {
     localStorage.clear()
+    const data = createDemo()
+    localStorage.setItem(CacheKey.GRADEBOOK_DATA, JSON.stringify({ version: 1, activeWorkspaceId: data.id, workspaces: [data] }))
     const pinia = createPinia()
     setActivePinia(pinia)
     const store = useGradebookStore()

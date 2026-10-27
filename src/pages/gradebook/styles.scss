@@ -51,6 +51,7 @@ p {
   width: 236px;
   position: fixed;
   inset: 0 auto 0 0;
+  overflow-y: auto;
   background: #fcfcf9;
   border-right: 1px solid #e5e8df;
   display: flex;
@@ -77,6 +78,7 @@ p {
 }
 .brand strong {
   display: block;
+  white-space: nowrap;
   font-size: 20px;
   letter-spacing: 1px;
 }
@@ -102,6 +104,10 @@ p {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+.unit-nav-title {
+  font-size: 12px;
+  white-space: nowrap;
 }
 .sidebar nav a,
 .settings-link {

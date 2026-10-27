@@ -1,15 +1,17 @@
 <script lang="ts" setup>
-import { ArrowRight, Bell, DataAnalysis, DataLine, Document, EditPen, Files, Reading, Setting, Upload, User, UserFilled } from "@element-plus/icons-vue"
+import { Aim, ArrowRight, Bell, DataAnalysis, DataLine, Document, EditPen, Files, Reading, Setting, Upload, User, UserFilled } from "@element-plus/icons-vue"
 import { useGradebookStore } from "@/pinia/stores/gradebook"
 
 const store = useGradebookStore()
 const route = useRoute()
 const menuOpen = ref(false)
+const isUnitPage = computed(() => route.path === "/unit-teaching")
 const nav = [
   { path: "/dashboard", title: "成绩总览", icon: DataAnalysis },
   { path: "/scores", title: "成绩录入", icon: EditPen },
   { path: "/students", title: "学生管理", icon: User },
   { path: "/analysis", title: "学科分析", icon: Reading },
+  { path: "/unit-teaching", title: "单元目标与分层教学", icon: Aim },
   { path: "/trends", title: "趋势追踪", icon: DataLine },
   { path: "/reports", title: "报告中心", icon: Document }
 ]
@@ -32,7 +34,7 @@ watch(() => route.path, () => {
       </div>
       <nav aria-label="主导航">
         <router-link v-for="item in nav" :key="item.path" :to="item.path" :class="{ active: route.path === item.path }">
-          <el-icon><component :is="item.icon" /></el-icon><span>{{ item.title }}</span>
+          <el-icon><component :is="item.icon" /></el-icon><span :class="{ 'unit-nav-title': item.path === '/unit-teaching' }">{{ item.title }}</span>
           <span v-if="item.path === '/students'" class="nav-count">{{ store.students.length }}</span>
         </router-link>
       </nav>
@@ -68,6 +70,7 @@ watch(() => route.path, () => {
       </header>
       <main class="workspace-main">
         <el-alert v-if="store.loadError || store.saveError" :title="store.loadError || store.saveError" type="error" :closable="false" show-icon class="storage-alert" />
+        <el-alert v-if="store.subjectSyncWarning" :title="store.subjectSyncWarning" type="warning" :closable="false" show-icon class="storage-alert" />
         <div v-if="store.workspace.demo" class="demo-banner">
           <span>示例档案 · 以下为演示数据，你可以自由体验全部功能。</span><router-link to="/settings">
             新建我的档案 <el-icon><ArrowRight /></el-icon>
@@ -78,7 +81,7 @@ watch(() => route.path, () => {
             <div class="eyebrow">
               QINGHE · GRADEBOOK
             </div><h1>{{ route.meta.title }}</h1><p>用清晰的数据，陪伴每一个学生向前。</p>
-          </div><router-link v-if="route.path !== '/scores' && route.path !== '/settings'" to="/scores">
+          </div><router-link v-if="route.path !== '/scores' && route.path !== '/settings' && !isUnitPage" to="/scores">
             <el-button type="primary" :icon="Upload">
               导入成绩
             </el-button>
@@ -88,13 +91,15 @@ watch(() => route.path, () => {
           <div class="context-controls">
             <span class="context-label">当前班级</span><el-select v-model="store.workspace.selectedClassId" placeholder="请先添加班级" aria-label="当前班级" class="class-select">
               <el-option v-for="group in store.workspace.classes" :key="group.id" :label="group.name" :value="group.id" />
-            </el-select><span class="context-separator" /><span class="context-label">考试</span><el-select v-model="store.workspace.selectedExamId" placeholder="请先新建考试" aria-label="当前考试" class="exam-select">
-              <el-option v-for="exam in exams" :key="exam.id" :label="exam.name" :value="exam.id" />
-            </el-select>
+            </el-select><template v-if="!isUnitPage">
+              <span class="context-separator" /><span class="context-label">考试</span><el-select v-model="store.workspace.selectedExamId" placeholder="请先新建考试" aria-label="当前考试" class="exam-select">
+                <el-option v-for="exam in exams" :key="exam.id" :label="exam.name" :value="exam.id" />
+              </el-select>
+            </template>
           </div>
-          <span class="context-date">{{ store.exam?.date || '暂无考试' }}<span> · {{ store.students.length }} 位学生</span></span>
+          <span class="context-date"><template v-if="!isUnitPage">{{ store.exam?.date || '暂无考试' }} · </template>{{ store.students.length }} 位学生</span>
         </div>
-        <el-alert v-if="!store.workspace.classes.length" type="info" :closable="false" show-icon class="storage-alert" title="暂无班级，请先到班级设置中添加班级。">
+        <el-alert v-if="!store.workspace.classes.length && !isUnitPage" type="info" :closable="false" show-icon class="storage-alert" title="暂无班级，请先到班级设置中添加班级。">
           <router-link to="/settings" class="text-link">
             去添加班级
           </router-link>

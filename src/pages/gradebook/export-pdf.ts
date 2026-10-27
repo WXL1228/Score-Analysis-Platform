@@ -17,7 +17,7 @@ export async function renderPdf(report: ReportDocument): Promise<Blob> {
     const width = 210 - margin * 2
     const pageHeight = (297 - margin * 2) / width * canvas.width
     const rect = element.getBoundingClientRect()
-    const protectedBlocks = Array.from(element.querySelectorAll("tr, li, .report-header, .report-metrics, svg, .report-footer")).map((block) => {
+    const protectedBlocks = Array.from(element.querySelectorAll("tr, li, .report-header, .report-metrics, .unit-report-intro, .unit-report-chart, .report-advice, svg, .report-footer")).map((block) => {
       const bounds = block.getBoundingClientRect()
       return { top: (bounds.top - rect.top) * 2, bottom: (bounds.bottom - rect.top) * 2 }
     })
